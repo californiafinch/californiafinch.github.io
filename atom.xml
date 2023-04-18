@@ -8,25 +8,15 @@
     <author>
       <name>敬言</name>
     </author>
-    <updated>2023-04-17T03:35:03.582Z</updated>
+    <updated>2023-01-01T15:27:54.000Z</updated>
     <entry>
-        <id>https://californiafinch.github.io/2023/04/17/hello-world/</id>
-        <title>Hello World</title>
-        <link rel="alternate" href="https://californiafinch.github.io/2023/04/17/hello-world/"/>
-        <content type="html">&lt;p&gt;Welcome to &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvLw==&#34;&gt;Hexo&lt;/span&gt;! This is your very first post. Check &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvL2RvY3Mv&#34;&gt;documentation&lt;/span&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvL2RvY3MvdHJvdWJsZXNob290aW5nLmh0bWw=&#34;&gt;troubleshooting&lt;/span&gt; or you can ask me on &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9naXRodWIuY29tL2hleG9qcy9oZXhvL2lzc3Vlcw==&#34;&gt;GitHub&lt;/span&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;Quick-Start&#34;&gt;&lt;a href=&#34;#Quick-Start&#34; class=&#34;headerlink&#34; title=&#34;Quick Start&#34;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&#34;Create-a-new-post&#34;&gt;&lt;a href=&#34;#Create-a-new-post&#34; class=&#34;headerlink&#34; title=&#34;Create a new post&#34;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;pre&gt;&lt;code class=&#34;bash&#34;&gt;$ hexo new &amp;quot;My New Post&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;More info: &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvL2RvY3Mvd3JpdGluZy5odG1s&#34;&gt;Writing&lt;/span&gt;&lt;/p&gt;
-&lt;h3 id=&#34;Run-server&#34;&gt;&lt;a href=&#34;#Run-server&#34; class=&#34;headerlink&#34; title=&#34;Run server&#34;&gt;&lt;/a&gt;Run server&lt;/h3&gt;&lt;pre&gt;&lt;code class=&#34;bash&#34;&gt;$ hexo server
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;More info: &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvL2RvY3Mvc2VydmVyLmh0bWw=&#34;&gt;Server&lt;/span&gt;&lt;/p&gt;
-&lt;h3 id=&#34;Generate-static-files&#34;&gt;&lt;a href=&#34;#Generate-static-files&#34; class=&#34;headerlink&#34; title=&#34;Generate static files&#34;&gt;&lt;/a&gt;Generate static files&lt;/h3&gt;&lt;pre&gt;&lt;code class=&#34;bash&#34;&gt;$ hexo generate
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;More info: &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvL2RvY3MvZ2VuZXJhdGluZy5odG1s&#34;&gt;Generating&lt;/span&gt;&lt;/p&gt;
-&lt;h3 id=&#34;Deploy-to-remote-sites&#34;&gt;&lt;a href=&#34;#Deploy-to-remote-sites&#34; class=&#34;headerlink&#34; title=&#34;Deploy to remote sites&#34;&gt;&lt;/a&gt;Deploy to remote sites&lt;/h3&gt;&lt;pre&gt;&lt;code class=&#34;bash&#34;&gt;$ hexo deploy
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;More info: &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvL2RvY3Mvb25lLWNvbW1hbmQtZGVwbG95bWVudC5odG1s&#34;&gt;Deployment&lt;/span&gt;&lt;/p&gt;
+        <id>https://californiafinch.github.io/2023/01/01/Book-1/01%E5%88%91%E6%B3%95%E6%A6%82%E8%AF%B4/</id>
+        <title>01刑法概说</title>
+        <link rel="alternate" href="https://californiafinch.github.io/2023/01/01/Book-1/01%E5%88%91%E6%B3%95%E6%A6%82%E8%AF%B4/"/>
+        <content type="html">&lt;h1 id=&#34;第一节&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#第一节&#34;&gt;#&lt;/a&gt; 第一节&lt;/h1&gt;
 </content>
-        <updated>2023-04-17T03:35:03.582Z</updated>
+        <category term="刑法" scheme="https://californiafinch.github.io/categories/Book-1/" />
+        <category term="刑法总论" scheme="https://californiafinch.github.io/tags/%E5%88%91%E6%B3%95%E6%80%BB%E8%AE%BA/" />
+        <updated>2023-01-01T15:27:54.000Z</updated>
     </entry>
 </feed>
