@@ -5,5 +5,16 @@
     "icon": "https://californiafinch.github.io/images/favicon.ico",
     "description": "玩人丧德，玩物丧志",
     "home_page_url": "https://californiafinch.github.io",
-    "items": []
+    "items": [
+        {
+            "id": "https://californiafinch.github.io/2023/03/01/Book-01/00%E5%AF%BC%E8%AE%BA/",
+            "url": "https://californiafinch.github.io/2023/03/01/Book-01/00%E5%AF%BC%E8%AE%BA/",
+            "title": "00导论",
+            "date_published": "2023-03-01T06:50:30.000Z",
+            "content_html": "<h1 id=\"法理学的对象-性质和方法\"><a class=\"markdownIt-Anchor\" href=\"#法理学的对象-性质和方法\">#</a> 法理学的对象、性质和方法</h1>\n<h2 id=\"法理学的对象\"><a class=\"markdownIt-Anchor\" href=\"#法理学的对象\">#</a> 法理学的对象</h2>\n<p>法理</p>\n",
+            "tags": [
+                "法理学"
+            ]
+        }
+    ]
 }
