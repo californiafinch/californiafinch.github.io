@@ -1,26 +1,52 @@
 <?xml version="1.0"?>
 <rss version="2.0">
     <channel>
-        <title>敬言</title>
-        <subtitle>世界和我爱着你</subtitle>
+        <title>阿克夏书馆分馆</title>
+        <subtitle>升官发财请走别路，贪生怕死莫入此门</subtitle>
         <icon>https://californiafinch.github.io/images/favicon.ico</icon>
         <link>https://californiafinch.github.io</link>
         <author>
-          <name>敬言</name>
+          <name>敬言馆主</name>
         </author>
-        <description>玩人丧德，玩物丧志</description>
+        <description>冬者岁之余，夜者日之余，阴雨者时之余也。</description>
         <language>zh-CN</language>
-        <pubDate>Wed, 01 Mar 2023 14:50:30 +0800</pubDate>
-        <lastBuildDate>Wed, 01 Mar 2023 14:50:30 +0800</lastBuildDate>
+        <pubDate>Sun, 02 Jun 2024 14:50:30 +0800</pubDate>
+        <lastBuildDate>Sun, 02 Jun 2024 14:50:30 +0800</lastBuildDate>
         <item>
-            <guid isPermalink="true">https://californiafinch.github.io/2023/03/01/Book-01/00%E5%AF%BC%E8%AE%BA/</guid>
-            <title>00导论</title>
-            <link>https://californiafinch.github.io/2023/03/01/Book-01/00%E5%AF%BC%E8%AE%BA/</link>
-            <category term="法理学" scheme="https://californiafinch.github.io/categories/Book-01/" />
-            <pubDate>Wed, 01 Mar 2023 14:50:30 +0800</pubDate>
-            <description><![CDATA[ &lt;h1 id=&#34;法理学的对象-性质和方法&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#法理学的对象-性质和方法&#34;&gt;#&lt;/a&gt; 法理学的对象、性质和方法&lt;/h1&gt;
-&lt;h2 id=&#34;法理学的对象&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#法理学的对象&#34;&gt;#&lt;/a&gt; 法理学的对象&lt;/h2&gt;
-&lt;p&gt;法理&lt;/p&gt;
+            <guid isPermalink="true">https://californiafinch.github.io/2024/06/02/Book-01/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/</guid>
+            <title>01民法概述</title>
+            <link>https://californiafinch.github.io/2024/06/02/Book-01/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/</link>
+            <category term="民法WLM" scheme="https://californiafinch.github.io/categories/Book-25/" />
+            <pubDate>Sun, 02 Jun 2024 14:50:30 +0800</pubDate>
+            <description><![CDATA[ &lt;h1 id=&#34;民法概述&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法概述&#34;&gt;#&lt;/a&gt; 民法概述&lt;/h1&gt;
+&lt;h2 id=&#34;民法的概念&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的概念&#34;&gt;#&lt;/a&gt; 民法的概念&lt;/h2&gt;
+&lt;h3 id=&#34;民法的语源&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的语源&#34;&gt;#&lt;/a&gt; 民法的语源&lt;/h3&gt;
+&lt;p&gt;“民法” 一词（法文为 droit civil，英文为 civil law，德文为 bürgerliches Recht，荷兰文则为 Burgerlyk Regt）&lt;/p&gt;
+&lt;h3 id=&#34;我国民法的概念&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#我国民法的概念&#34;&gt;#&lt;/a&gt; 我国民法的概念&lt;/h3&gt;
+&lt;h3 id=&#34;形式意义上的民法和实质意义上的民法&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#形式意义上的民法和实质意义上的民法&#34;&gt;#&lt;/a&gt; 形式意义上的民法和实质意义上的民法&lt;/h3&gt;
+&lt;h4 id=&#34;形式意义上的民法&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#形式意义上的民法&#34;&gt;#&lt;/a&gt; 形式意义上的民法&lt;/h4&gt;
+&lt;h4 id=&#34;实质意义上的民法&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#实质意义上的民法&#34;&gt;#&lt;/a&gt; 实质意义上的民法&lt;/h4&gt;
+&lt;h3 id=&#34;民法和商法&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法和商法&#34;&gt;#&lt;/a&gt; 民法和商法&lt;/h3&gt;
+&lt;h2 id=&#34;我国民法的调整对象&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#我国民法的调整对象&#34;&gt;#&lt;/a&gt; 我国民法的调整对象&lt;/h2&gt;
+&lt;h2 id=&#34;我国民法典的编纂和体系&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#我国民法典的编纂和体系&#34;&gt;#&lt;/a&gt; 我国民法典的编纂和体系&lt;/h2&gt;
+&lt;h2 id=&#34;民法的性质&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的性质&#34;&gt;#&lt;/a&gt; 民法的性质&lt;/h2&gt;
+&lt;h2 id=&#34;民法与其他法律部门的关系&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法与其他法律部门的关系&#34;&gt;#&lt;/a&gt; 民法与其他法律部门的关系&lt;/h2&gt;
+&lt;h2 id=&#34;民法的渊源&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的渊源&#34;&gt;#&lt;/a&gt; 民法的渊源&lt;/h2&gt;
+&lt;h2 id=&#34;民法的适用&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的适用&#34;&gt;#&lt;/a&gt; 民法的适用&lt;/h2&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://californiafinch.github.io/2024/06/01/Book-01/00%E6%89%89%E9%A1%B5/</guid>
+            <title>00扉页</title>
+            <link>https://californiafinch.github.io/2024/06/01/Book-01/00%E6%89%89%E9%A1%B5/</link>
+            <category term="民法WLM" scheme="https://californiafinch.github.io/categories/Book-25/" />
+            <category term="D923" scheme="https://californiafinch.github.io/tags/D923/" />
+            <pubDate>Sat, 01 Jun 2024 14:50:30 +0800</pubDate>
+            <description><![CDATA[ &lt;h1 id=&#34;版次&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#版次&#34;&gt;#&lt;/a&gt; 版次&lt;/h1&gt;
+&lt;p&gt;2000 年 6 月第 1 版&lt;br&gt;
+ 2022 年 1 月第 9 版&lt;/p&gt;
+&lt;h1 id=&#34;印次&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#印次&#34;&gt;#&lt;/a&gt; 印次&lt;/h1&gt;
+&lt;p&gt;2022 年 4 月第 3 次印刷&lt;/p&gt;
  ]]></description>
         </item>
     </channel>
