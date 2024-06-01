@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://californiafinch.github.io</id>
-    <title>阿克夏书馆分馆</title>
-    <subtitle>升官发财请走别路，贪生怕死莫入此门</subtitle>
+    <title>敬言馆主</title>
+    <subtitle>冬者岁之余，夜者日之余，阴雨者时之余也。</subtitle>
     <icon>https://californiafinch.github.io/images/favicon.ico</icon>
     <link href="https://californiafinch.github.io" />
     <author>
@@ -10,9 +10,9 @@
     </author>
     <updated>2024-06-02T06:50:30.000Z</updated>
     <entry>
-        <id>https://californiafinch.github.io/2024/06/02/Book-01/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/</id>
+        <id>https://californiafinch.github.io/2024/06/02/Book-25/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/</id>
         <title>01民法概述</title>
-        <link rel="alternate" href="https://californiafinch.github.io/2024/06/02/Book-01/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/"/>
+        <link rel="alternate" href="https://californiafinch.github.io/2024/06/02/Book-25/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/"/>
         <content type="html">&lt;h1 id=&#34;民法概述&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法概述&#34;&gt;#&lt;/a&gt; 民法概述&lt;/h1&gt;
 &lt;h2 id=&#34;民法的概念&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的概念&#34;&gt;#&lt;/a&gt; 民法的概念&lt;/h2&gt;
 &lt;h3 id=&#34;民法的语源&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的语源&#34;&gt;#&lt;/a&gt; 民法的语源&lt;/h3&gt;
@@ -29,21 +29,21 @@
 &lt;h2 id=&#34;民法的渊源&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的渊源&#34;&gt;#&lt;/a&gt; 民法的渊源&lt;/h2&gt;
 &lt;h2 id=&#34;民法的适用&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的适用&#34;&gt;#&lt;/a&gt; 民法的适用&lt;/h2&gt;
 </content>
-        <category term="民法WLM" scheme="https://californiafinch.github.io/categories/Book-25/" />
+        <category term="民法王利明" scheme="https://californiafinch.github.io/categories/Book-25/" />
         <updated>2024-06-02T06:50:30.000Z</updated>
     </entry>
     <entry>
-        <id>https://californiafinch.github.io/2024/06/01/Book-01/00%E6%89%89%E9%A1%B5/</id>
-        <title>00扉页</title>
-        <link rel="alternate" href="https://californiafinch.github.io/2024/06/01/Book-01/00%E6%89%89%E9%A1%B5/"/>
+        <id>https://californiafinch.github.io/2024/06/01/Book-25/00%E5%9B%BE%E4%B9%A6%E5%9C%A8%E7%89%88%E7%BC%96%E7%9B%AE%EF%BC%88CIP%EF%BC%89%E6%95%B0%E6%8D%AE/</id>
+        <title>00图书在版编目（CIP）数据</title>
+        <link rel="alternate" href="https://californiafinch.github.io/2024/06/01/Book-25/00%E5%9B%BE%E4%B9%A6%E5%9C%A8%E7%89%88%E7%BC%96%E7%9B%AE%EF%BC%88CIP%EF%BC%89%E6%95%B0%E6%8D%AE/"/>
         <content type="html">&lt;h1 id=&#34;版次&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#版次&#34;&gt;#&lt;/a&gt; 版次&lt;/h1&gt;
 &lt;p&gt;2000 年 6 月第 1 版&lt;br&gt;
  2022 年 1 月第 9 版&lt;/p&gt;
 &lt;h1 id=&#34;印次&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#印次&#34;&gt;#&lt;/a&gt; 印次&lt;/h1&gt;
 &lt;p&gt;2022 年 4 月第 3 次印刷&lt;/p&gt;
 </content>
-        <category term="民法WLM" scheme="https://californiafinch.github.io/categories/Book-25/" />
-        <category term="D923" scheme="https://californiafinch.github.io/tags/D923/" />
+        <category term="民法王利明" scheme="https://californiafinch.github.io/categories/Book-25/" />
+        <category term="D923民法" scheme="https://californiafinch.github.io/tags/D923%E6%B0%91%E6%B3%95/" />
         <updated>2024-06-01T06:50:30.000Z</updated>
     </entry>
 </feed>

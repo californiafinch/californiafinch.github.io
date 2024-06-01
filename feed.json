@@ -1,30 +1,30 @@
 {
     "version": "https://jsonfeed.org/version/1",
-    "title": "阿克夏书馆分馆",
-    "subtitle": "升官发财请走别路，贪生怕死莫入此门",
+    "title": "敬言馆主",
+    "subtitle": "冬者岁之余，夜者日之余，阴雨者时之余也。",
     "icon": "https://californiafinch.github.io/images/favicon.ico",
-    "description": "冬者岁之余，夜者日之余，阴雨者时之余也。",
+    "description": "升官发财请走别路，贪生怕死莫入此门",
     "home_page_url": "https://californiafinch.github.io",
     "items": [
         {
-            "id": "https://californiafinch.github.io/2024/06/02/Book-01/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/",
-            "url": "https://californiafinch.github.io/2024/06/02/Book-01/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/",
+            "id": "https://californiafinch.github.io/2024/06/02/Book-25/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/",
+            "url": "https://californiafinch.github.io/2024/06/02/Book-25/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/",
             "title": "01民法概述",
             "date_published": "2024-06-02T06:50:30.000Z",
             "content_html": "<h1 id=\"民法概述\"><a class=\"markdownIt-Anchor\" href=\"#民法概述\">#</a> 民法概述</h1>\n<h2 id=\"民法的概念\"><a class=\"markdownIt-Anchor\" href=\"#民法的概念\">#</a> 民法的概念</h2>\n<h3 id=\"民法的语源\"><a class=\"markdownIt-Anchor\" href=\"#民法的语源\">#</a> 民法的语源</h3>\n<p>“民法” 一词（法文为 droit civil，英文为 civil law，德文为 bürgerliches Recht，荷兰文则为 Burgerlyk Regt）</p>\n<h3 id=\"我国民法的概念\"><a class=\"markdownIt-Anchor\" href=\"#我国民法的概念\">#</a> 我国民法的概念</h3>\n<h3 id=\"形式意义上的民法和实质意义上的民法\"><a class=\"markdownIt-Anchor\" href=\"#形式意义上的民法和实质意义上的民法\">#</a> 形式意义上的民法和实质意义上的民法</h3>\n<h4 id=\"形式意义上的民法\"><a class=\"markdownIt-Anchor\" href=\"#形式意义上的民法\">#</a> 形式意义上的民法</h4>\n<h4 id=\"实质意义上的民法\"><a class=\"markdownIt-Anchor\" href=\"#实质意义上的民法\">#</a> 实质意义上的民法</h4>\n<h3 id=\"民法和商法\"><a class=\"markdownIt-Anchor\" href=\"#民法和商法\">#</a> 民法和商法</h3>\n<h2 id=\"我国民法的调整对象\"><a class=\"markdownIt-Anchor\" href=\"#我国民法的调整对象\">#</a> 我国民法的调整对象</h2>\n<h2 id=\"我国民法典的编纂和体系\"><a class=\"markdownIt-Anchor\" href=\"#我国民法典的编纂和体系\">#</a> 我国民法典的编纂和体系</h2>\n<h2 id=\"民法的性质\"><a class=\"markdownIt-Anchor\" href=\"#民法的性质\">#</a> 民法的性质</h2>\n<h2 id=\"民法与其他法律部门的关系\"><a class=\"markdownIt-Anchor\" href=\"#民法与其他法律部门的关系\">#</a> 民法与其他法律部门的关系</h2>\n<h2 id=\"民法的渊源\"><a class=\"markdownIt-Anchor\" href=\"#民法的渊源\">#</a> 民法的渊源</h2>\n<h2 id=\"民法的适用\"><a class=\"markdownIt-Anchor\" href=\"#民法的适用\">#</a> 民法的适用</h2>\n",
             "tags": [
-                "民法WLM"
+                "民法王利明"
             ]
         },
         {
-            "id": "https://californiafinch.github.io/2024/06/01/Book-01/00%E6%89%89%E9%A1%B5/",
-            "url": "https://californiafinch.github.io/2024/06/01/Book-01/00%E6%89%89%E9%A1%B5/",
-            "title": "00扉页",
+            "id": "https://californiafinch.github.io/2024/06/01/Book-25/00%E5%9B%BE%E4%B9%A6%E5%9C%A8%E7%89%88%E7%BC%96%E7%9B%AE%EF%BC%88CIP%EF%BC%89%E6%95%B0%E6%8D%AE/",
+            "url": "https://californiafinch.github.io/2024/06/01/Book-25/00%E5%9B%BE%E4%B9%A6%E5%9C%A8%E7%89%88%E7%BC%96%E7%9B%AE%EF%BC%88CIP%EF%BC%89%E6%95%B0%E6%8D%AE/",
+            "title": "00图书在版编目（CIP）数据",
             "date_published": "2024-06-01T06:50:30.000Z",
             "content_html": "<h1 id=\"版次\"><a class=\"markdownIt-Anchor\" href=\"#版次\">#</a> 版次</h1>\n<p>2000 年 6 月第 1 版<br>\n 2022 年 1 月第 9 版</p>\n<h1 id=\"印次\"><a class=\"markdownIt-Anchor\" href=\"#印次\">#</a> 印次</h1>\n<p>2022 年 4 月第 3 次印刷</p>\n",
             "tags": [
-                "民法WLM",
-                "D923"
+                "民法王利明",
+                "D923民法"
             ]
         }
     ]

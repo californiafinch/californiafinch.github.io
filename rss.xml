@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <rss version="2.0">
     <channel>
-        <title>阿克夏书馆分馆</title>
-        <subtitle>升官发财请走别路，贪生怕死莫入此门</subtitle>
+        <title>敬言馆主</title>
+        <subtitle>冬者岁之余，夜者日之余，阴雨者时之余也。</subtitle>
         <icon>https://californiafinch.github.io/images/favicon.ico</icon>
         <link>https://californiafinch.github.io</link>
         <author>
           <name>敬言馆主</name>
         </author>
-        <description>冬者岁之余，夜者日之余，阴雨者时之余也。</description>
+        <description>升官发财请走别路，贪生怕死莫入此门</description>
         <language>zh-CN</language>
         <pubDate>Sun, 02 Jun 2024 14:50:30 +0800</pubDate>
         <lastBuildDate>Sun, 02 Jun 2024 14:50:30 +0800</lastBuildDate>
         <item>
-            <guid isPermalink="true">https://californiafinch.github.io/2024/06/02/Book-01/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/</guid>
+            <guid isPermalink="true">https://californiafinch.github.io/2024/06/02/Book-25/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/</guid>
             <title>01民法概述</title>
-            <link>https://californiafinch.github.io/2024/06/02/Book-01/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/</link>
-            <category term="民法WLM" scheme="https://californiafinch.github.io/categories/Book-25/" />
+            <link>https://californiafinch.github.io/2024/06/02/Book-25/01%E6%B0%91%E6%B3%95%E6%A6%82%E8%BF%B0/</link>
+            <category term="民法王利明" scheme="https://californiafinch.github.io/categories/Book-25/" />
             <pubDate>Sun, 02 Jun 2024 14:50:30 +0800</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;民法概述&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法概述&#34;&gt;#&lt;/a&gt; 民法概述&lt;/h1&gt;
 &lt;h2 id=&#34;民法的概念&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#民法的概念&#34;&gt;#&lt;/a&gt; 民法的概念&lt;/h2&gt;
@@ -36,11 +36,11 @@
  ]]></description>
         </item>
         <item>
-            <guid isPermalink="true">https://californiafinch.github.io/2024/06/01/Book-01/00%E6%89%89%E9%A1%B5/</guid>
-            <title>00扉页</title>
-            <link>https://californiafinch.github.io/2024/06/01/Book-01/00%E6%89%89%E9%A1%B5/</link>
-            <category term="民法WLM" scheme="https://californiafinch.github.io/categories/Book-25/" />
-            <category term="D923" scheme="https://californiafinch.github.io/tags/D923/" />
+            <guid isPermalink="true">https://californiafinch.github.io/2024/06/01/Book-25/00%E5%9B%BE%E4%B9%A6%E5%9C%A8%E7%89%88%E7%BC%96%E7%9B%AE%EF%BC%88CIP%EF%BC%89%E6%95%B0%E6%8D%AE/</guid>
+            <title>00图书在版编目（CIP）数据</title>
+            <link>https://californiafinch.github.io/2024/06/01/Book-25/00%E5%9B%BE%E4%B9%A6%E5%9C%A8%E7%89%88%E7%BC%96%E7%9B%AE%EF%BC%88CIP%EF%BC%89%E6%95%B0%E6%8D%AE/</link>
+            <category term="民法王利明" scheme="https://californiafinch.github.io/categories/Book-25/" />
+            <category term="D923民法" scheme="https://californiafinch.github.io/tags/D923%E6%B0%91%E6%B3%95/" />
             <pubDate>Sat, 01 Jun 2024 14:50:30 +0800</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;版次&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#版次&#34;&gt;#&lt;/a&gt; 版次&lt;/h1&gt;
 &lt;p&gt;2000 年 6 月第 1 版&lt;br&gt;
