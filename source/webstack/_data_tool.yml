@@ -1,0 +1,13 @@
+- site: GitHub
+  owner: GitHub
+  url: https://github.com/
+  desc: 软件源代码托管服务平台
+  image: https://s1.imagehub.cc/images/2025/07/16/cbc60488acb1a2dadabf2d56f5ea00bc.th.jpeg
+  color: "#e9546b"
+
+- site: ImageHub
+  owner: ImageHub
+  url: https://www.imagehub.cc/
+  desc: 免费图片托管平台
+  image: https://s1.imagehub.cc/images/2025/07/17/af18caf5ddf0e145fc6182c89ed4ec76.th.png
+  color: "#e9546b"

@@ -1,0 +1,118 @@
+#站点别称
+alternate: 阿克夏书馆分馆
+
+# Assets 静态文件目录
+statics: https://cdn.jsdelivr.net/gh/californiafinch/californiafinch.github.io@latest/
+
+open_graph:
+  enable: true
+  #twitter_id:
+  #google_plus:
+  #fb_admins:
+  #fb_app_id:
+  description: 敬言馆主的个人博客，分享读书心得、生活感悟、技术笔记与成长思考。
+  image: /images/avatar.jpg
+
+# 菜单与社交按钮
+menu:
+  home: / || home
+  about:
+    default: / || user
+    zishe: /zishe/ || cloud
+  posts:
+    default: / || feather
+    archives: /archives/ || list-alt
+    categories: /categories/ || th
+    tags: /tags/ || tags
+  website:
+    default: / || magic
+    friends: /friends/ || heart
+    webstack: /webstack/ || star
+  links: https://californiafitzleo.github.io/ || paper-plane
+
+#  links: https://travellings.link || paper-plane
+
+# Social Links
+# Usage: `Key: permalink || icon || color`
+# Key is the link label showing to end users.
+# Value before `||` delimiter is the target permalink,
+# secend value is the name of Font icon.
+social:
+  github: https://github.com/californiafinch || github || "#191717"
+  music: https://music.163.com/#/user/event?id=8857795480 || cloud-music || "#e60026"
+  email: mailto:california_finch@outlook.com || envelope || "#ec8c69"
+  #douban: https://www.douban.com/people/jingyanguanzhu/ || douban || "#3e999f"
+  #zhihu: https://www.zhihu.com/people/jingyanguanzhu || zhihu || "#1e88e5"
+  #weibo: https://weibo.com/jingyanguanzhu || weibo || "#ea716e"
+  #google: https://plus.google.com/yourname || google
+  #about: https://about.me/amehime || address-card || "#3b5998"
+  #facebook: https://www.facebook.com/yourname || facebook
+  #stackoverflow: https://stackoverflow.com/yourname || stack-overflow
+  #youtube: https://youtube.com/yourname || youtube
+  #instagram: https://instagram.com/yourname || instagram
+  #skype: skype:yourname?call|chat || skype
+
+# 颜色
+#red红色：#e9546b
+#pink粉红色: #ed6ea0
+#orange橙色: #ec8c69
+#yellow黄色: #eab700
+#green绿色: #0a7426
+#aqua潮绿色: #3e999f
+#blue蓝色: #38a1db
+#purple紫色: #9d5b8b
+#grey灰色: #869194
+#black黑色：#191717
+
+footer:
+  # Specify the date when the site was setup. If not defined, current year will be used.
+  since: 2010
+  count: true
+
+post:
+  count: true
+
+
+# ---------------------------------------------------------------
+# Third Party Plugins & Services Settings
+# ---------------------------------------------------------------
+
+# Comments
+# Valine - 暂时禁用
+# valine:
+#   appId: #填写自己的
+#   appKey: #填写自己的
+#   placeholder: ヽ(○´∀`)ﾉ♪ # Comment box placeholder
+#   pageSize: 10 # Pagination size
+#   lang: zh-CN
+#   tagMember:
+#     master:
+#       # - deea5a8d259d17182a53be1772e4c182
+#     friend:
+#       - deea5a8d259d17182a53be1772e4c182
+
+# bgm
+audio:
+   - title: love music
+     list:
+        - https://music.163.com/#/playlist?id=10119070118
+#  - title: qing music
+#   list:
+#       - 
+#  - title: sad music
+#    list:
+#       - 
+
+# Dependencies: https://github.com/amehime/hexo-renderer-multi-markdown-it
+pangu: true
+
+# ---------------------------------------------------------------
+# analytics & SEO Settings
+# ---------------------------------------------------------------
+
+
+# Disable Baidu transformation on mobile devices.
+disable_baidu_transformation: true
+
+# Automatically add external URL with Base64 encrypt & decrypt.
+exturl: true
