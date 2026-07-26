@@ -78,7 +78,17 @@ const siteRefresh = function (reload) {
 
   cardActive()
 
-  lazyload.observe()
+  if (typeof lozad !== 'undefined' && !lazyload) {
+    lazyload = lozad('img, [data-background-image]', {
+      loaded: function(el) {
+        el.addClass('lozaded');
+      }
+    });
+  }
+
+  if (lazyload) {
+    lazyload.observe();
+  }
 }
 
 const siteInit = function () {

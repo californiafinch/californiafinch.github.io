@@ -14,7 +14,7 @@ hexo.extend.filter.register('after_post_render', data => {
     if (!/decoding=/.test(newAttrs)) {
       newAttrs += ' decoding="async"';
     }
-    return `<img${newAttrs} data-src=`;
+    return `<img${newAttrs} src=`;
   });
 
   const url = require('url');

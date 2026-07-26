@@ -20,11 +20,7 @@ var oWinHeight = window.innerHeight;
 var oWinWidth = window.innerWidth;
 var LOCAL_HASH = 0, LOCAL_URL = window.location.href;
 var pjax;
-const lazyload = lozad('img, [data-background-image]', {
-    loaded: function(el) {
-        el.addClass('lozaded');
-    }
-})
+var lazyload = null;
 
 const initImageErrorFallback = function() {
     document.addEventListener('error', function(e) {
