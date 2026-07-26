@@ -9,6 +9,12 @@
       <name>敬言馆主</name>
     </author>
     <updated>2025-07-01T11:30:00.000Z</updated>
+    <category term="敬言馆主" />
+    <category term="个人博客" />
+    <category term="读书心得" />
+    <category term="生活感悟" />
+    <category term="技术笔记" />
+    <category term="成长思考" />
     <entry>
         <id>https://californiafinch.github.io/2025/07/01/Book-01/01%E5%BA%8F%E8%A8%80/</id>
         <title>01序言</title>
