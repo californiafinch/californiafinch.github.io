@@ -1,4 +1,4 @@
-var CONFIG = {"version":"0.2.5","hostname":"https://californiafinch.github.io","root":"/","statics":"https://cdn.jsdelivr.net/gh/californiafinch/californiafinch.github.io@latest/","favicon":{"normal":"images/favicon.ico","hidden":"images/failure.ico"},"darkmode":false,"auto_scroll":false,"js":{"valine":"gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js","fancybox":"combine/npm/jquery@3.5.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"},"css":{"valine":"css/comment.css","mermaid":"css/mermaid.css","fancybox":"combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"},"loader":{"start":true,"switch":true},"search":null,"quicklink":{},"audio":[{"title":"love music","list":["https://music.163.com/#/playlist?id=10119070118"]}],"fireworks":["rgba(255,182,185,.9)","rgba(250,227,217,.9)","rgba(187,222,214,.9)","rgba(138,198,209,.9)"]};const getRndInteger = function (min, max) {
+var CONFIG = {"version":"0.2.5","hostname":"https://californiafinch.github.io","root":"/","statics":"/","favicon":{"normal":"images/favicon.ico","hidden":"images/failure.ico"},"darkmode":false,"auto_scroll":false,"js":{"valine":"gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js","fancybox":"combine/npm/jquery@3.5.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"},"css":{"valine":"css/comment.css","mermaid":"css/mermaid.css","fancybox":"combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"},"loader":{"start":true,"switch":true},"search":null,"quicklink":{"timeout":3000,"priority":true},"audio":[{"title":"love music","list":["https://music.163.com/#/playlist?id=10119070118"]}],"fireworks":["rgba(255,182,185,.9)","rgba(250,227,217,.9)","rgba(187,222,214,.9)","rgba(138,198,209,.9)"]};const getRndInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -1128,18 +1128,19 @@ var oWinHeight = window.innerHeight;
 var oWinWidth = window.innerWidth;
 var LOCAL_HASH = 0, LOCAL_URL = window.location.href;
 var pjax;
-var lazyload = null;
-
-const initImageErrorFallback = function() {
-    document.addEventListener('error', function(e) {
-        const target = e.target;
-        if (target.tagName === 'IMG') {
-            if (target.dataset.src && target.src !== target.dataset.src) {
-                target.src = target.dataset.src;
+var lazyload = lozad('img, [data-background-image]', {
+    loaded: function(el) {
+        el.addClass('lozaded');
+    },
+    error: function(el) {
+        if (el.tagName === 'IMG' && !el.dataset.err) {
+            el.dataset.err = '1';
+            if (el.dataset.src) {
+                el.src = el.dataset.src;
             }
         }
-    }, true);
-}
+    }
+})
 
 const Loader = {
   timer: null,
@@ -2314,24 +2315,12 @@ const siteRefresh = function (reload) {
 
   cardActive()
 
-  if (typeof lozad !== 'undefined' && !lazyload) {
-    lazyload = lozad('img, [data-background-image]', {
-      loaded: function(el) {
-        el.addClass('lozaded');
-      }
-    });
-  }
-
-  if (lazyload) {
-    lazyload.observe();
-  }
+  lazyload.observe()
 }
 
 const siteInit = function () {
 
   domInit()
-
-  initImageErrorFallback()
 
   pjax = new Pjax({
             selectors: [
@@ -2343,6 +2332,9 @@ const siteInit = function () {
             analytics: false,
             cacheBust: false
           })
+
+  CONFIG.quicklink.ignores = LOCAL.ignores
+  quicklink.listen(CONFIG.quicklink)
 
   visibilityListener()
   themeColorListener()
@@ -2362,7 +2354,14 @@ const siteInit = function () {
   siteRefresh(1)
 }
 
-window.addEventListener('DOMContentLoaded', siteInit);
+window.addEventListener('DOMContentLoaded', function() {
+  try {
+    siteInit();
+  } catch(e) {
+    console.error('siteInit error:', e);
+    Loader.hide(0);
+  }
+});
 // 烟花效果懒加载
 var canvasEl = null;
 var ctx = null;
