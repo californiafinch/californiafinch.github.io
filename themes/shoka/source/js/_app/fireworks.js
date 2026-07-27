@@ -1,59 +1,15 @@
-// 烟花效果懒加载
-var canvasEl = null;
-var ctx = null;
+var canvasEl = document.createElement('canvas');
+canvasEl.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:9999999';
+document.body.appendChild(canvasEl);
+
+var ctx = canvasEl.getContext('2d');
 var numberOfParticules = 30;
 var pointerX = 0;
 var pointerY = 0;
 var tap = 'click'; // ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown'
 var colors = CONFIG.fireworks;
-var render = null;
-var initialized = false;
-
-function initFireworks() {
-  if (initialized) return;
-  
-  // 加载 anime.js
-  if (!window.anime) {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js';
-    script.onload = function() {
-      initializeFireworks();
-    };
-    document.head.appendChild(script);
-  } else {
-    initializeFireworks();
-  }
-}
-
-function initializeFireworks() {
-  if (initialized) return;
-  
-  // 创建 canvas 元素
-  canvasEl = document.createElement('canvas');
-  canvasEl.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:9999999';
-  document.body.appendChild(canvasEl);
-  
-  ctx = canvasEl.getContext('2d');
-  
-  setCanvasSize();
-  window.addEventListener('resize', setCanvasSize, false);
-  
-  // 初始化渲染
-  render = anime({
-    duration: Infinity,
-    update: function() {
-      if (ctx) {
-        ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-      }
-    }
-  });
-  
-  initialized = true;
-}
 
 function setCanvasSize() {
-  if (!canvasEl) return;
-  
   canvasEl.width = window.innerWidth * 2;
   canvasEl.height = window.innerHeight * 2;
   canvasEl.style.width = window.innerWidth + 'px';
@@ -119,11 +75,6 @@ function renderParticule(anim) {
 }
 
 function animateParticules(x, y) {
-  if (!initialized) {
-    initFireworks();
-    return;
-  }
-  
   var circle = createCircle(x, y);
   var particules = [];
   for (var i = 0; i < numberOfParticules; i++) {
@@ -152,14 +103,18 @@ function animateParticules(x, y) {
   }, 0);
 }
 
-// 监听点击事件，第一次点击时初始化烟花效果
+var render = anime({
+  duration: Infinity,
+  update: function() {
+    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+  }
+});
+
 document.addEventListener(tap, function(e) {
-  initFireworks();
-  setTimeout(function() {
-    if (initialized) {
-      render.play();
-      updateCoords(e);
-      animateParticules(pointerX, pointerY);
-    }
-  }, 100);
+  render.play();
+  updateCoords(e);
+  animateParticules(pointerX, pointerY);
 }, false);
+
+setCanvasSize();
+window.addEventListener('resize', setCanvasSize, false);

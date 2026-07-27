@@ -1,12 +1,12 @@
-const getRndInteger = function (min, max) {
+var getRndInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const getDocHeight = function () {
+var getDocHeight = function () {
   return $('main > .inner').offsetHeight;
 }
 
-const getScript = function(url, callback, condition) {
+var getScript = function(url, callback, condition) {
   if (condition) {
     callback();
   } else {
@@ -14,7 +14,6 @@ const getScript = function(url, callback, condition) {
     script.onload = script.onreadystatechange = function(_, isAbort) {
       if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
         script.onload = script.onreadystatechange = null;
-        script = undefined;
         if (!isAbort && callback) setTimeout(callback, 0);
       }
     };
@@ -23,7 +22,7 @@ const getScript = function(url, callback, condition) {
   }
 }
 
-const assetUrl = function(asset, type) {
+var assetUrl = function(asset, type) {
   var str = CONFIG[asset][type]
   if(str.indexOf('npm')>-1||str.indexOf('gh')>-1||str.indexOf('combine')>-1)
     return "//cdn.jsdelivr.net/" + str
@@ -34,7 +33,7 @@ const assetUrl = function(asset, type) {
   return statics + str;
 }
 
-const vendorJs = function(type, callback, condition) {
+var vendorJs = function(type, callback, condition) {
   if(LOCAL[type]) {
     getScript(assetUrl("js", type), callback || function(){
       window[type] = true;
@@ -42,7 +41,7 @@ const vendorJs = function(type, callback, condition) {
   }
 }
 
-const vendorCss = function(type, condition) {
+var vendorCss = function(type, condition) {
   if(window['css'+type])
     return;
 
@@ -57,7 +56,7 @@ const vendorCss = function(type, condition) {
   }
 }
 
-const pjaxScript = function(element) {
+var pjaxScript = function(element) {
   var code = element.text || element.textContent || element.innerHTML || '';
   var parent = element.parentNode;
   parent.removeChild(element);
@@ -73,7 +72,6 @@ const pjaxScript = function(element) {
   }
   if (element.src) {
     script.src = element.src;
-    // Force synchronous loading of peripheral JS.
     script.async = false;
   }
   if (element.dataset.pjax !== undefined) {
@@ -85,7 +83,7 @@ const pjaxScript = function(element) {
   parent.appendChild(script);
 }
 
-const pageScroll = function(target, offset, complete) {
+var pageScroll = function(target, offset, complete) {
   var opt = {
     targets: typeof offset == 'number' ? target.parentNode : document.scrollingElement,
     duration: 500,
@@ -98,7 +96,7 @@ const pageScroll = function(target, offset, complete) {
   anime(opt);
 }
 
-const transition = function(target, type, complete) {
+var transition = function(target, type, complete) {
   var animation = {}
   var display = 'none'
   switch(type) {
@@ -168,7 +166,7 @@ const transition = function(target, type, complete) {
     });
 }
 
-const store = {
+var store = {
   get: function(item) {
     return localStorage.getItem(item);
   },
@@ -179,4 +177,14 @@ const store = {
   del: function(item) {
     localStorage.removeItem(item);
   }
+}
+
+var escapeHtml = function(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }

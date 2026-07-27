@@ -44,6 +44,10 @@ const mediaPlayer = function(t, config) {
         ['xiami.com.*album/(\\w+)', 'xiami', 'album'],
         ['xiami.com.*artist/(\\w+)', 'xiami', 'artist'],
         ['xiami.com.*collect/(\\w+)', 'xiami', 'playlist'],
+        ['bilibili\\.com/video/(BV[\\w]+)', 'bilibili', 'video'],
+        ['bilibili\\.com/video/av(\\d+)', 'bilibili', 'video'],
+        ['b23\\.tv/(BV[\\w]+)', 'bilibili', 'video'],
+        ['b23\\.tv/(av\\d+)', 'bilibili', 'video'],
       ].forEach(function(rule) {
         var patt = new RegExp(rule[0])
         var res = patt.exec(link)
@@ -53,31 +57,86 @@ const mediaPlayer = function(t, config) {
       })
       return result
     },
-    fetch: function(source) {
+    fetch: function(source, retryCount = 0) {
       var list = []
+      var MAX_RETRY = 2
 
       return new Promise(function(resolve, reject) {
+        var completed = 0
+        var total = source.length
+
+        if (total === 0) {
+          resolve(list)
+          return
+        }
+
         source.forEach(function(raw) {
           var meta = utils.parse(raw)
           if(meta[0]) {
             var skey = JSON.stringify(meta)
-            var playlist = store.get(skey)
-            if(playlist) {
-              list.push.apply(list, JSON.parse(playlist));
-              resolve(list);
+            var cachedPlaylist = store.get(skey)
+            if(cachedPlaylist) {
+              list.push.apply(list, JSON.parse(cachedPlaylist));
+              completed++
+              if (completed === total) resolve(list)
             } else {
-              fetch('https://api.i-meto.com/meting/api?server='+meta[0]+'&type='+meta[1]+'&id='+meta[2]+'&r='+ Math.random())
-                .then(function(response) {
-                  return response.json()
-                }).then(function(json) {
-                  store.set(skey, JSON.stringify(json))
-                  list.push.apply(list, json);
-                  resolve(list);
-                }).catch(function(ex) {})
+              var fetchData = function(attempt) {
+                if (meta[0] === 'bilibili') {
+                  // B站API存在CORS限制，直接创建播放条目
+                  var bvid = meta[2]
+                  var items = []
+                  // 创建30个分P条目（邓紫棋合集）
+                  for (var i = 1; i <= 30; i++) {
+                    items.push({
+                      name: '邓紫棋合集 P' + i,
+                      artist: 'B站音乐',
+                      cover: '',
+                      url: 'https://player.bilibili.com/player.html?bvid=' + bvid + '&page=' + i + '&high_quality=1&danmaku=0&autoplay=1',
+                      type: 'bilibili',
+                      bvid: bvid,
+                      cid: 0
+                    })
+                  }
+                  store.set(skey, JSON.stringify(items))
+                  list.push.apply(list, items);
+                  completed++
+                  if (completed === total) resolve(list)
+                } else {
+                  fetch('https://api.i-meto.com/meting/api?server='+meta[0]+'&type='+meta[1]+'&id='+meta[2]+'&r='+ Math.random())
+                    .then(function(response) {
+                      if (!response.ok) throw new Error('HTTP error ' + response.status)
+                      return response.json()
+                    }).then(function(json) {
+                      if (json && json.length > 0) {
+                        store.set(skey, JSON.stringify(json))
+                      }
+                      list.push.apply(list, json);
+                      completed++
+                      if (completed === total) resolve(list)
+                    }).catch(function(ex) {
+                      if (attempt < MAX_RETRY) {
+                        setTimeout(function() {
+                          fetchData(attempt + 1)
+                        }, 1000 * Math.pow(2, attempt))
+                      } else {
+                        completed++
+                        if (completed === total) {
+                          if (list.length > 0) {
+                            resolve(list)
+                          } else {
+                            reject(ex)
+                          }
+                        }
+                      }
+                    })
+                }
+              }
+              fetchData(retryCount)
             }
           } else {
             list.push(raw);
-            resolve(list);
+            completed++
+            if (completed === total) resolve(list)
           }
         })
       })
@@ -101,7 +160,6 @@ const mediaPlayer = function(t, config) {
   t.player = {
     _id: utils.random(999999),
     group: true,
-    // 加载播放列表
     load: function(newList) {
       var d = ""
       var that = this
@@ -110,11 +168,8 @@ const mediaPlayer = function(t, config) {
         if(this.options.rawList !== newList) {
           this.options.rawList = newList;
           playlist.clear()
-          // 获取新列表
-          //this.fetch()
         }
       } else {
-        // 没有列表时，隐藏按钮
         d = "none"
         this.pause()
       }
@@ -122,6 +177,41 @@ const mediaPlayer = function(t, config) {
         buttons.el[el].display(d)
       }
       return this
+    },
+    saveState: function() {
+      if (playlist.current()) {
+        var state = {
+          index: playlist.index,
+          time: source.currentTime,
+          mode: this.options.mode,
+          volume: source.volume,
+          muted: source.muted
+        }
+        store.set('_PlayerState_' + this._id, JSON.stringify(state))
+      }
+    },
+    restoreState: function() {
+      var stateStr = store.get('_PlayerState_' + this._id)
+      if (stateStr) {
+        try {
+          var state = JSON.parse(stateStr)
+          if (typeof state.index === 'number' && state.index >= 0 && state.index < playlist.data.length) {
+            playlist.index = state.index
+          }
+          if (typeof state.mode === 'string') {
+            this.options.mode = state.mode
+            store.set('_PlayerMode', state.mode)
+          }
+          if (typeof state.volume === 'number') {
+            this.volume(state.volume)
+          }
+          if (state.muted) {
+            this.muted('muted')
+          }
+          return state
+        } catch (e) {}
+      }
+      return null
     },
     fetch: function () {
       var that = this;
@@ -135,17 +225,19 @@ const mediaPlayer = function(t, config) {
               that.options.rawList.forEach(function(raw, index) {
                 promises.push(new Promise(function(resolve, reject) {
                   var group = index
-                  var source
+                  var sourceData
                   if(!raw.list) {
                     group = 0
                     that.group = false
-                    source = [raw]
+                    sourceData = [raw]
                   } else {
                     that.group = true
-                    source = raw.list
+                    sourceData = raw.list
                   }
-                  utils.fetch(source).then(function(list) {
+                  utils.fetch(sourceData).then(function(list) {
                     playlist.add(group, list)
+                    resolve()
+                  }).catch(function(ex) {
                     resolve()
                   })
                 }))
@@ -161,6 +253,10 @@ const mediaPlayer = function(t, config) {
             playlist.create()
             controller.create()
             that.mode()
+            var savedState = that.restoreState()
+            if (savedState && typeof savedState.time === 'number') {
+              source.currentTime = savedState.time
+            }
           }
         })
     },
@@ -227,24 +323,33 @@ const mediaPlayer = function(t, config) {
         return;
       }
 
-      var playing = false;
-      if(!source.paused) {
-        playing = true
+      var playing = !source.paused
+      if(playing) {
         this.stop()
       }
 
-      source.attr('src', item.url);
-      source.attr('title', item.name + ' - ' + item.artist);
-      this.volume(store.get('_PlayerVolume') || '0.7')
-      this.muted(store.get('_PlayerMuted'))
+      if (item.type === 'bilibili') {
+        // B站视频不走audio元素，直接渲染预览
+        progress.create()
+        if(this.options.type == 'audio')
+          preview.create()
+        if(playing) {
+          this.play()
+        }
+      } else {
+        source.attr('src', item.url);
+        source.attr('title', item.name + ' - ' + item.artist);
+        this.volume(store.get('_PlayerVolume') || '0.7')
+        this.muted(store.get('_PlayerMuted'))
 
-      progress.create()
+        progress.create()
 
-      if(this.options.type == 'audio')
-        preview.create()
+        if(this.options.type == 'audio')
+          preview.create()
 
-      if(playing == true) {
-        this.play()
+        if(playing) {
+          this.play()
+        }
       }
     },
     play: function() {
@@ -255,17 +360,45 @@ const mediaPlayer = function(t, config) {
         return;
       }
       var that = this
-      source.play().then(function() {
+      if (playlist.current().type === 'bilibili') {
+        var iframe = preview.el && preview.el.find('iframe')[0]
+        if (iframe) {
+          iframe.contentWindow.postMessage(JSON.stringify({
+            "type":"play"
+          }), "*")
+        }
         playlist.scroll()
-      }).catch(function(e) {});
+      } else {
+        source.play().then(function() {
+          playlist.scroll()
+        }).catch(function(e) {});
+      }
     },
     pause: function() {
-      source.pause()
+      if (playlist.current() && playlist.current().type === 'bilibili') {
+        var iframe = preview.el && preview.el.find('iframe')[0]
+        if (iframe) {
+          iframe.contentWindow.postMessage(JSON.stringify({
+            "type":"pause"
+          }), "*")
+        }
+      } else {
+        source.pause()
+      }
       document.title = originTitle
     },
     stop: function() {
-      source.pause();
-      source.currentTime = 0;
+      if (playlist.current() && playlist.current().type === 'bilibili') {
+        var iframe = preview.el && preview.el.find('iframe')[0]
+        if (iframe) {
+          iframe.contentWindow.postMessage(JSON.stringify({
+            "type":"pause"
+          }), "*")
+        }
+      } else {
+        source.pause();
+        source.currentTime = 0;
+      }
       document.title = originTitle;
     },
     seek: function(time) {
@@ -330,8 +463,8 @@ const mediaPlayer = function(t, config) {
       var that = this
       list.forEach(function(item, i) {
         item.group = group;
-        item.name = item.name || item.title || 'Meida name';
-        item.artist = item.artist || item.author || 'Anonymous';
+        item.name = escapeHtml(item.name || item.title || 'Meida name');
+        item.artist = escapeHtml(item.artist || item.author || 'Anonymous');
         item.cover = item.cover || item.pic;
         item.type = item.type || 'normal';
 
@@ -428,10 +561,16 @@ const mediaPlayer = function(t, config) {
     el: null,
     data: null,
     index: 0,
+    animationFrame: null,
     create: function(box) {
       var current = playlist.index
       var that = this
       var raw = playlist.current().lrc
+
+      if (this.animationFrame) {
+        cancelAnimationFrame(this.animationFrame)
+        this.animationFrame = null
+      }
 
       var callback = function(body) {
         if(current !== playlist.index)
@@ -452,71 +591,77 @@ const mediaPlayer = function(t, config) {
         that.index = 0;
       }
 
-      if(raw.startsWith('http'))
+      if(raw && raw.startsWith('http'))
         this.fetch(raw, callback)
-      else
+      else if (raw)
         callback(raw)
+      else
+        box.innerHTML = '<div class="inner"></div>'
     },
     update: function(currentTime) {
-      if(!this.data)
+      if(!this.data || !this.el || this.data.length === 0)
         return
 
       if (this.index > this.data.length - 1 || currentTime < this.data[this.index][0] || (!this.data[this.index + 1] || currentTime >= this.data[this.index + 1][0])) {
+        var targetIndex = -1
         for (var i = 0; i < this.data.length; i++) {
           if (currentTime >= this.data[i][0] && (!this.data[i + 1] || currentTime < this.data[i + 1][0])) {
-            this.index = i;
-            var y = -(this.index-1);
-            this.el.style.transform = 'translateY('+y+'rem)';
-            this.el.style.webkitTransform = 'translateY('+y+'rem)';
-            this.el.getElementsByClassName('current')[0].removeClass('current');
-            this.el.getElementsByTagName('p')[i].addClass('current');
+            targetIndex = i
+            break
+          }
+        }
+
+        if (targetIndex !== -1 && targetIndex !== this.index) {
+          this.index = targetIndex
+          var y = -(this.index - 1)
+          this.el.style.transform = 'translateY(' + y + 'rem)'
+          this.el.style.webkitTransform = 'translateY(' + y + 'rem)'
+
+          var currentEls = this.el.getElementsByClassName('current')
+          if (currentEls.length > 0) {
+            currentEls[0].removeClass('current')
+          }
+
+          var pEls = this.el.getElementsByTagName('p')
+          if (pEls[targetIndex]) {
+            pEls[targetIndex].addClass('current')
           }
         }
       }
     },
     parse: function(lrc_s) {
-      if (lrc_s) {
-          lrc_s = lrc_s.replace(/([^\]^\n])\[/g, function(match, p1){return p1 + '\n['});
-          const lyric = lrc_s.split('\n');
-          var lrc = [];
-          const lyricLen = lyric.length;
-          for (var i = 0; i < lyricLen; i++) {
-              // match lrc time
-              const lrcTimes = lyric[i].match(/\[(\d{2}):(\d{2})(\.(\d{2,3}))?]/g);
-              // match lrc text
-              const lrcText = lyric[i]
-                  .replace(/.*\[(\d{2}):(\d{2})(\.(\d{2,3}))?]/g, '')
-                  .replace(/<(\d{2}):(\d{2})(\.(\d{2,3}))?>/g, '')
-                  .replace(/^\s+|\s+$/g, '');
+      if (!lrc_s) return []
 
-              if (lrcTimes) {
-                  // handle multiple time tag
-                  const timeLen = lrcTimes.length;
-                  for (var j = 0; j < timeLen; j++) {
-                      const oneTime = /\[(\d{2}):(\d{2})(\.(\d{2,3}))?]/.exec(lrcTimes[j]);
-                      const min2sec = oneTime[1] * 60;
-                      const sec2sec = parseInt(oneTime[2]);
-                      const msec2sec = oneTime[4] ? parseInt(oneTime[4]) / ((oneTime[4] + '').length === 2 ? 100 : 1000) : 0;
-                      const lrcTime = min2sec + sec2sec + msec2sec;
-                      lrc.push([lrcTime, lrcText]);
-                  }
-              }
-          }
-          // sort by time
-          lrc = lrc.filter(function(item){return item[1]});
-          lrc.sort(function(a, b){return a[0] - b[0]});
-          return lrc;
-      } else {
-          return [];
-      }
+      var lrc = []
+      var timeTagPattern = /\[(\d{2}):(\d{2})(?:\.(\d{2,3}))?]/g
+      var lines = lrc_s.split('\n')
+
+      lines.forEach(function(line) {
+        var lrcText = line.replace(timeTagPattern, '').replace(/^\s+|\s+$/g, '')
+        if (!lrcText) return
+
+        var match
+        while ((match = timeTagPattern.exec(line)) !== null) {
+          var min2sec = parseInt(match[1]) * 60
+          var sec2sec = parseInt(match[2])
+          var msec2sec = match[3] ? parseInt(match[3]) / ((match[3] + '').length === 2 ? 100 : 1000) : 0
+          var lrcTime = min2sec + sec2sec + msec2sec
+          lrc.push([lrcTime, lrcText])
+        }
+      })
+
+      return lrc.sort(function(a, b) { return a[0] - b[0] })
     },
     fetch: function(url, callback) {
       fetch(url)
           .then(function(response) {
+            if (!response.ok) throw new Error('HTTP error ' + response.status)
             return response.text()
           }).then(function(body) {
             callback(body)
-          }).catch(function(ex) {})
+          }).catch(function(ex) {
+            callback('')
+          })
     }
   }
 
@@ -525,13 +670,18 @@ const mediaPlayer = function(t, config) {
     create: function () {
       var current = playlist.current()
 
-      this.el.innerHTML = '<div class="cover"><div class="disc"><img src="'+(current.cover)+'" class="blur" /></div></div>'
-      + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span>'
-      + '<div class="lrc"></div></div>'
+      if (current.type === 'bilibili') {
+        this.el.innerHTML = '<div class="cover"><div class="bilibili-player-embed"><iframe src="' + current.url + '" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div></div>'
+        + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span></div>'
+      } else {
+        this.el.innerHTML = '<div class="cover"><div class="disc"><img src="'+(current.cover)+'" class="blur" /></div></div>'
+        + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span>'
+        + '<div class="lrc"></div></div>'
 
-      this.el.child('.cover').addEventListener('click', t.player.options.events['play-pause'])
+        this.el.child('.cover').addEventListener('click', t.player.options.events['play-pause'])
 
-      lyrics.create(this.el.child('.lrc'))
+        lyrics.create(this.el.child('.lrc'))
+      }
     }
   }
 
@@ -735,6 +885,10 @@ const mediaPlayer = function(t, config) {
     onloadedmetadata: function() {
       t.player.seek(0)
       progress.el.attr('data-dtime', utils.secondToTime(source.duration))
+      var savedState = t.player.restoreState()
+      if (savedState && typeof savedState.time === 'number') {
+        source.currentTime = savedState.time
+      }
     },
     onplay: function() {
       t.parentNode.addClass('playing')
@@ -744,6 +898,7 @@ const mediaPlayer = function(t, config) {
     onpause: function() {
       t.parentNode.removeClass('playing')
       NOWPLAYING = null
+      t.player.saveState()
     },
     ontimeupdate: function() {
       if(!this.disableTimeupdate) {
@@ -752,8 +907,12 @@ const mediaPlayer = function(t, config) {
       }
     },
     onended: function(argument) {
+      t.player.saveState()
       t.player.mode()
       t.player.play()
+    },
+    onseeked: function() {
+      t.player.saveState()
     }
   }
 
@@ -798,10 +957,256 @@ const mediaPlayer = function(t, config) {
 
     t.parentNode.addClass(t.player.options.type)
 
+    // 监听B站iframe播放器的播放结束事件，自动切换下一首
+    window.addEventListener('message', function(e) {
+      var current = playlist.current()
+      if (!current || current.type !== 'bilibili') return
+      try {
+        var d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data
+        if (d && (d.command === 'ended' || d.type === 'ended' || d.event === 'ended')) {
+          t.player.mode()
+          t.player.play()
+        }
+      } catch(err) {}
+    })
+
     t.player.created = true;
   }
 
   init(config)
 
   return t;
+}
+
+const bilibiliPlayer = function(t, config) {
+  var option = {
+    mode: 'order',
+    btns: ['play-pause', 'music'],
+    controls: ['mode', 'backward', 'play-pause', 'forward'],
+    events: {
+      "play-pause": function(event) {
+        var iframe = t.querySelector('iframe')
+        if (iframe) {
+          var wrapper = t.querySelector('.bilibili-wrapper')
+          wrapper.toggleClass('playing')
+        }
+      },
+      "music": function(event) {
+        var info = t.querySelector('.bilibili-info')
+        if(info) {
+          if(info.hasClass('show')) {
+            info.removeClass('show')
+            info.addClass('hide')
+            setTimeout(function() {
+              info.removeClass('show hide')
+            }, 300)
+          } else {
+            info.addClass('show')
+          }
+        }
+      }
+    }
+  }
+
+  var data = {
+    list: [],
+    index: 0,
+    iframe: null,
+    wrapper: null,
+    info: null,
+    controller: null,
+    playlist: null
+  }
+
+  var utils = {
+    random: function(len) {
+      return Math.floor((Math.random()*len))
+    },
+    buildUrl: function(bvid, page) {
+      return 'https://player.bilibili.com/player.html?bvid=' + bvid +
+             '&page=' + (page || 1) +
+             '&high_quality=1&danmaku=0&autoplay=1'
+    }
+  }
+
+  t.player = {
+    load: function(newList) {
+      if(newList && newList.length > 0) {
+        data.list = newList
+        this.render()
+      }
+    },
+    render: function() {
+      if(data.list.length === 0) return
+
+      var current = data.list[data.index]
+      var html = '<div class="bilibili-wrapper">' +
+                 '<div class="bilibili-frame">' +
+                 '<iframe src="' + utils.buildUrl(current.bvid, current.page) + '" ' +
+                 'scrolling="no" border="0" frameborder="no" framespacing="0" ' +
+                 'allowfullscreen="true"></iframe>' +
+                 '</div>' +
+                 '<div class="bilibili-cover">' +
+                 '<div class="cover-img" style="background-image:url(' + (current.cover || '') + ')"></div>' +
+                 '<div class="cover-play"><i class="ic i-play"></i></div>' +
+                 '</div>' +
+                 '</div>' +
+                 '<div class="bilibili-meta">' +
+                 '<h4 class="title">' + escapeHtml(current.title || current.bvid) + '</h4>' +
+                 '<span class="author">' + escapeHtml(current.author || 'Bilibili') + '</span>' +
+                 '</div>'
+
+      t.innerHTML = html
+
+      data.wrapper = t.querySelector('.bilibili-wrapper')
+      data.iframe = t.querySelector('iframe')
+
+      this.createInfo()
+      this.createController()
+      this.updateController()
+
+      var that = this
+      data.wrapper.addEventListener('click', function() {
+        that.togglePlay()
+      })
+    },
+    createInfo: function() {
+      data.info = document.createElement('div')
+      data.info.className = 'bilibili-info'
+
+      var listHtml = '<ol>'
+      data.list.forEach(function(item, index) {
+        listHtml += '<li data-index="' + index + '" title="' + escapeHtml(item.title || item.bvid) + '">' +
+                   '<span class="info"><span>' + escapeHtml(item.title || item.bvid) + '</span>' +
+                   '<span>' + escapeHtml(item.author || 'Bilibili') + '</span></span>' +
+                   '</li>'
+      })
+      listHtml += '</ol>'
+
+      data.info.innerHTML = '<div class="controller"></div><div class="playlist">' + listHtml + '</div>'
+      t.appendChild(data.info)
+
+      var that = this
+      data.info.querySelectorAll('li').forEach(function(li) {
+        li.addEventListener('click', function(e) {
+          e.stopPropagation()
+          var idx = parseInt(this.getAttribute('data-index'))
+          if(idx !== data.index) {
+            data.index = idx
+            that.render()
+          }
+        })
+      })
+    },
+    createController: function() {
+      var ctrl = data.info.querySelector('.controller')
+      if(!ctrl) return
+
+      var that = this
+      var btns = ['mode', 'backward', 'play-pause', 'forward']
+      btns.forEach(function(item) {
+        var btn = document.createElement('div')
+        btn.className = item + ' btn'
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation()
+          that.handleControl(item)
+        })
+        ctrl.appendChild(btn)
+      })
+    },
+    updateController: function() {
+      var modeBtn = data.info.querySelector('.mode')
+      if(modeBtn) modeBtn.className = 'mode ' + option.mode + ' btn'
+
+      var lis = data.info.querySelectorAll('li')
+      lis.forEach(function(li) {
+        li.removeClass('active')
+      })
+      if(lis[data.index]) {
+        lis[data.index].addClass('active')
+      }
+    },
+    handleControl: function(action) {
+      switch(action) {
+        case 'mode':
+          switch(option.mode) {
+            case 'loop': option.mode = 'random'; break
+            case 'random': option.mode = 'order'; break
+            default: option.mode = 'loop'
+          }
+          store.set('_PlayerMode', option.mode)
+          this.updateController()
+          break
+        case 'backward':
+          this.prev()
+          break
+        case 'forward':
+          this.next()
+          break
+        case 'play-pause':
+          this.togglePlay()
+          break
+      }
+    },
+    togglePlay: function() {
+      if(data.wrapper) {
+        data.wrapper.toggleClass('playing')
+      }
+    },
+    next: function() {
+      var total = data.list.length
+      if(total <= 1) return
+
+      switch(option.mode) {
+        case 'random':
+          var next = utils.random(total)
+          if(next === data.index) next = (next + 1) % total
+          data.index = next
+          break
+        case 'order':
+          data.index = (data.index + 1) % total
+          break
+        case 'loop':
+          data.index = (data.index + 1) % total
+          break
+      }
+      this.render()
+    },
+    prev: function() {
+      var total = data.list.length
+      if(total <= 1) return
+
+      switch(option.mode) {
+        case 'random':
+          var prev = utils.random(total)
+          if(prev === data.index) prev = (prev - 1 + total) % total
+          data.index = prev
+          break
+        case 'order':
+        case 'loop':
+          data.index = (data.index - 1 + total) % total
+          break
+      }
+      this.render()
+    }
+  }
+
+  var init = function(config) {
+    if(t.player.created) return
+    option = Object.assign(option, config)
+    option.mode = store.get('_PlayerMode') || option.mode
+    t.player.created = true
+  }
+
+  init(config)
+
+  var srcData = t.attr('data-src')
+  if(srcData) {
+    try {
+      var list = JSON.parse(srcData)
+      t.player.load(list)
+    } catch(e) {}
+  }
+
+  return t
 }

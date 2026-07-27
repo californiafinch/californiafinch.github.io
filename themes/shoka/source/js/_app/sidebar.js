@@ -1,4 +1,4 @@
-const sideBarToggleHandle = function (event, force) {
+var sideBarToggleHandle = function (event, force) {
   if(sideBar.hasClass('on')) {
     sideBar.removeClass('on');
     menuToggle.removeClass('close');
@@ -19,7 +19,7 @@ const sideBarToggleHandle = function (event, force) {
   }
 }
 
-const sideBarTab = function () {
+var sideBarTab = function () {
   var sideBarInner = sideBar.child('.inner');
   var panels = sideBar.find('.panel');
 
@@ -27,7 +27,8 @@ const sideBarTab = function () {
     sideBarInner.removeChild(sideBar.child('.tab'));
   }
 
-  var list = document.createElement('ul'), active = 'active';
+  var list = document.createElement('ul');
+  var active = 'active';
   list.className = 'tab';
 
   ['contents', 'related', 'overview'].forEach(function (item) {
@@ -88,7 +89,7 @@ const sideBarTab = function () {
   }
 }
 
-const sidebarTOC = function () {
+var sidebarTOC = function () {
   var navItems = $.all('.contents li');
 
   if (navItems.length < 1) {
@@ -116,7 +117,6 @@ const sidebarTOC = function () {
         })
     };
 
-    // TOC item animation navigate.
     link.addEventListener('click', anchorScroll);
     alink && alink.addEventListener('click', function(event) {
       anchorScroll(event)
@@ -160,7 +160,6 @@ const sidebarTOC = function () {
       }
       parent = parent.parentNode;
     }
-    // Scrolling to center active TOC element if TOC content is taller then viewport.
     if(getComputedStyle(sideBar).display != 'none' && tocElement.hasClass('active')) {
       pageScroll(tocElement, target.offsetTop- (tocElement.offsetHeight / 4))
     }
@@ -206,19 +205,19 @@ const sidebarTOC = function () {
   createIntersectionObserver();
 }
 
-const backToTopHandle = function () {
+var backToTopHandle = function () {
   pageScroll(0);
 }
 
-const goToBottomHandle = function () {
+var goToBottomHandle = function () {
   pageScroll(parseInt(Container.height()));
 }
 
-const goToCommentHandle = function () {
+var goToCommentHandle = function () {
   pageScroll($('#comments'));
 }
 
-const menuActive = function () {
+var menuActive = function () {
   $.each('.menu .item:not(.title)', function (element) {
     var target = element.child('a[href]');
     var parentItem = element.parentNode.parentNode;

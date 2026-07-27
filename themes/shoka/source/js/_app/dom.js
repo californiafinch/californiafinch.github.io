@@ -1,4 +1,4 @@
-const $ = function(selector, element) {
+var $ = function(selector, element) {
   element = element || document;
   if(selector.indexOf('#') === 0) {
     return element.getElementById(selector.replace('#', ''))

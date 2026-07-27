@@ -210,7 +210,7 @@ var scrollHandle = function (event) {
     //scrollAction.x = Container.scrollLeft;
     //scrollAction.y = Container.scrollTop;
   }
-  //var diffX = scrollAction.x = Container.scrollLeft;
+  //var diffX = scrollAction.x - Container.scrollLeft;
   diffY = scrollAction.y - window.pageYOffset;
 
   //if (diffX < 0) {
@@ -305,3 +305,4 @@ var clipBoardFallback = function(str, callback) {
   }
   BODY.removeChild(ta);
 }
+

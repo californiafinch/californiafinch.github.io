@@ -1,11 +1,11 @@
 const cardActive = function() {
-  // 实现md文件首行缩进<ret/>
-  var article1 = document.querySelectorAll('.article ret');
-  if(article1.length){
-    for(var i=0;i<article1.length;i++){
-      article1[i].innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-    }
-  }
+   // 实现md文件首行缩进<ret/>
+   var article1 = document.querySelectorAll('.article ret');
+   if(article1.length){
+     for(var i=0;i<article1.length;i++){
+       article1[i].innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+     }
+   }
   if(!$('.index.wrap'))
     return
 
@@ -346,11 +346,19 @@ const postBeauty = function () {
   })
 
   $.each('.md div.player', function(element) {
-    mediaPlayer(element, {
-      type: element.attr('data-type'),
-      mode: 'order',
-      btns: []
-    }).player.load(JSON.parse(element.attr('data-src'))).fetch()
+    var type = element.attr('data-type')
+    if (type === 'bilibili') {
+      bilibiliPlayer(element, {
+        mode: 'order',
+        btns: []
+      })
+    } else {
+      mediaPlayer(element, {
+        type: type,
+        mode: 'order',
+        btns: []
+      }).player.load(JSON.parse(element.attr('data-src'))).fetch()
+    }
   })
 }
 
@@ -421,9 +429,6 @@ const loadComments = function () {
     goToComment.display("")
   }
 
-  // Valine 评论已暂时禁用，不加载任何评论相关资源
-  // 如果需要启用评论，取消下面的注释并配置 valine
-  /*
   if (!window.IntersectionObserver) {
     vendorCss('valine');
   } else {
@@ -438,7 +443,6 @@ const loadComments = function () {
 
     io.observe(element);
   }
-  */
 }
 
 const algoliaSearch = function(pjax) {
@@ -452,122 +456,95 @@ const algoliaSearch = function(pjax) {
     });
   }
 
-  // 初始化搜索功能
-  const initSearch = function() {
-    if (window.instantsearch && window.algoliasearch) {
-      var search = instantsearch({
-        indexName: CONFIG.search.indexName,
-        searchClient  : algoliasearch(CONFIG.search.appID, CONFIG.search.apiKey),
-        searchFunction: function(helper) {
-          var searchInput = $('.search-input');
-          if (searchInput.value) {
-            helper.search();
-          }
+  var search = instantsearch({
+    indexName: CONFIG.search.indexName,
+    searchClient  : algoliasearch(CONFIG.search.appID, CONFIG.search.apiKey),
+    searchFunction: function(helper) {
+      var searchInput = $('.search-input');
+      if (searchInput.value) {
+        helper.search();
+      }
+    }
+  });
+
+  search.on('render', function() {
+    pjax.refresh($('#search-hits'));
+  });
+
+  // Registering Widgets
+  search.addWidgets([
+    instantsearch.widgets.configure({
+      hitsPerPage: CONFIG.search.hits.per_page || 10
+    }),
+
+    instantsearch.widgets.searchBox({
+      container           : '.search-input-container',
+      placeholder         : LOCAL.search.placeholder,
+      // Hide default icons of algolia search
+      showReset           : false,
+      showSubmit          : false,
+      showLoadingIndicator: false,
+      cssClasses          : {
+        input: 'search-input'
+      }
+    }),
+
+    instantsearch.widgets.stats({
+      container: '#search-stats',
+      templates: {
+        text: function(data) {
+          var stats = LOCAL.search.stats
+            .replace(/\$\{hits}/, data.nbHits)
+            .replace(/\$\{time}/, data.processingTimeMS);
+          return stats + '<span class="algolia-powered"></span><hr>';
         }
-      });
+      }
+    }),
 
-      search.on('render', function() {
-        pjax.refresh($('#search-hits'));
-      });
+    instantsearch.widgets.hits({
+      container: '#search-hits',
+      templates: {
+        item: function(data) {
+          var cats = data.categories ? '<span>'+data.categories.map(function(cat){return escapeHtml(cat)}).join('<i class="ic i-angle-right"></i>')+'</span>' : '';
+          return '<a href="' + CONFIG.root + data.path +'">'+cats+data._highlightResult.title.value+'</a>';
+        },
+        empty: function(data) {
+          return '<div id="hits-empty">'+
+              LOCAL.search.empty.replace(/\$\{query}/, escapeHtml(data.query)) +
+            '</div>';
+        }
+      },
+      cssClasses: {
+        item: 'item'
+      }
+    }),
 
-      // Registering Widgets
-      search.addWidgets([
-        instantsearch.widgets.configure({
-          hitsPerPage: CONFIG.search.hits.per_page || 10
-        }),
+    instantsearch.widgets.pagination({
+      container: '#search-pagination',
+      scrollTo : false,
+      showFirst: false,
+      showLast : false,
+      templates: {
+        first   : '<i class="ic i-angle-double-left"></i>',
+        last    : '<i class="ic i-angle-double-right"></i>',
+        previous: '<i class="ic i-angle-left"></i>',
+        next    : '<i class="ic i-angle-right"></i>'
+      },
+      cssClasses: {
+        root        : 'pagination',
+        item        : 'pagination-item',
+        link        : 'page-number',
+        selectedItem: 'current',
+        disabledItem: 'disabled-item'
+      }
+    })
+  ]);
 
-        instantsearch.widgets.searchBox({
-          container           : '.search-input-container',
-          placeholder         : LOCAL.search.placeholder,
-          // Hide default icons of algolia search
-          showReset           : false,
-          showSubmit          : false,
-          showLoadingIndicator: false,
-          cssClasses          : {
-            input: 'search-input'
-          }
-        }),
-
-        instantsearch.widgets.stats({
-          container: '#search-stats',
-          templates: {
-            text: function(data) {
-              var stats = LOCAL.search.stats
-                .replace(/\$\{hits}/, data.nbHits)
-                .replace(/\$\{time}/, data.processingTimeMS);
-              return stats + '<span class="algolia-powered"></span><hr>';
-            }
-          }
-        }),
-
-        instantsearch.widgets.hits({
-          container: '#search-hits',
-          templates: {
-            item: function(data) {
-              var cats = data.categories ? '<span>'+data.categories.join('<i class="ic i-angle-right"></i>')+'</span>' : '';
-              return '<a href="' + CONFIG.root + data.path +'">'+cats+data._highlightResult.title.value+'</a>';
-            },
-            empty: function(data) {
-              return '<div id="hits-empty">'+LOCAL.search.empty.replace(/\$\{query}/, data.query) +'</div>';
-            }
-          },
-          cssClasses: {
-            item: 'item'
-          }
-        }),
-
-        instantsearch.widgets.pagination({
-          container: '#search-pagination',
-          scrollTo : false,
-          showFirst: false,
-          showLast : false,
-          templates: {
-            first   : '<i class="ic i-angle-double-left"></i>',
-            last    : '<i class="ic i-angle-double-right"></i>',
-            previous: '<i class="ic i-angle-left"></i>',
-            next    : '<i class="ic i-angle-right"></i>'
-          },
-          cssClasses: {
-            root        : 'pagination',
-            item        : 'pagination-item',
-            link        : 'page-number',
-            selectedItem: 'current',
-            disabledItem: 'disabled-item'
-          }
-        })
-      ]);
-
-      search.start();
-    }
-  };
-
-  // 懒加载 Algolia 库
-  const loadAlgolia = function() {
-    if (!window.instantsearch) {
-      // 加载 instantsearch.js
-      const instantsearchScript = document.createElement('script');
-      instantsearchScript.src = 'https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js';
-      instantsearchScript.onload = function() {
-        // 加载 algoliasearch.js
-        const algoliasearchScript = document.createElement('script');
-        algoliasearchScript.src = 'https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch.umd.min.js';
-        algoliasearchScript.onload = function() {
-          initSearch();
-        };
-        document.head.appendChild(algoliasearchScript);
-      };
-      document.head.appendChild(instantsearchScript);
-    } else {
-      initSearch();
-    }
-  };
+  search.start();
 
   // Handle and trigger popup window
   $.each('.search', function(element) {
     element.addEventListener('click', function() {
-      // 懒加载 Algolia 库
-      loadAlgolia();
-      
       document.body.style.overflow = 'hidden';
       transition(siteSearch, 'shrinkIn', function() {
           $('.search-input').focus();
