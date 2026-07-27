@@ -20,17 +20,7 @@ var oWinHeight = window.innerHeight;
 var oWinWidth = window.innerWidth;
 var LOCAL_HASH = 0, LOCAL_URL = window.location.href;
 var pjax;
-var lazyload = lozad('img, [data-background-image]', {
-    loaded: function(el) {
-        el.addClass('lozaded');
-    },
-    error: function(el) {
-        if (el.tagName === 'IMG' && !el.dataset.err) {
-            el.dataset.err = '1';
-            el.src = CONFIG.root + 'assets/404.svg';
-        }
-    }
-})
+var lazyload;
 
 var Loader = {
   timer: null,
