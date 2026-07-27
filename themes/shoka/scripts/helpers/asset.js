@@ -56,8 +56,6 @@ hexo.extend.helper.register('_vendor_js', () => {
   vendorJs = [...new Set(vendorJs)];
   vendorJs = vendorJs.join(',');
 
-  let result = vendorJs ? `<script src="//cdn.jsdelivr.net/combine/${vendorJs}"></script>` : '';
-
   return vendorJs ? htmlTag('script', { src: `//cdn.jsdelivr.net/combine/${vendorJs}` }, '') : '';
 });
 
