@@ -51,9 +51,9 @@ hexo.extend.helper.register('_vendor_js', function() {
 
   if (!config) return '';
 
-  // 使用合并后的单个 vendor 文件，减少 HTTP 请求
+  // 使用合并后的单个 vendor 文件，使用 defer 避免阻塞渲染
   const combinedSrc = url_for.call(this, `${statics}${js}/vendors.combined.js?v=${version}`);
-  return htmlTag('script', { src: combinedSrc }, '');
+  return htmlTag('script', { src: combinedSrc, defer: true }, '');
 });
 
 hexo.extend.helper.register('_css', function(...urls) {
@@ -66,5 +66,5 @@ hexo.extend.helper.register('_css', function(...urls) {
 hexo.extend.helper.register('_js', function(...urls) {
   const { statics, js } = hexo.theme.config;
 
-  return urls.map(url => htmlTag('script', { src: url_for.call(this, `${statics}${js}/${url}?v=${theme_env['version']}`) }, '')).join('');
+  return urls.map(url => htmlTag('script', { src: url_for.call(this, `${statics}${js}/${url}?v=${theme_env['version']}`), defer: true }, '')).join('');
 });
