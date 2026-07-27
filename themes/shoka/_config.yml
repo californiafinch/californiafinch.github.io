@@ -187,9 +187,11 @@ search:
 # Dependencies: https://github.com/amehime/hexo-renderer-multi-markdown-it
 pangu: false
 
-# Quicklink Support - Disabled for faster loading
+# Quicklink Support
 quicklink:
-  enable: false
+  enable: true
+  timeout: 3000
+  priority: true
 
 # ---------------------------------------------------------------
 # analytics & SEO Settings
@@ -283,8 +285,10 @@ vendors:
     comment: css/comment.css
     fancybox: combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css
   js:
+    pace: pace-js@1.2.4
     pjax: npm/pjax@0.2.8/pjax.min.js
     anime: npm/animejs@3.2.0/lib/anime.min.js
     fancybox: combine/npm/jquery@3.5.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js
     lazyload: npm/lozad@1/dist/lozad.min.js
+    quicklink: npm/quicklink@2/dist/quicklink.umd.js
     valine: gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js

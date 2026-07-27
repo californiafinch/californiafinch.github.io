@@ -78,24 +78,12 @@ const siteRefresh = function (reload) {
 
   cardActive()
 
-  if (typeof lozad !== 'undefined' && !lazyload) {
-    lazyload = lozad('img, [data-background-image]', {
-      loaded: function(el) {
-        el.addClass('lozaded');
-      }
-    });
-  }
-
-  if (lazyload) {
-    lazyload.observe();
-  }
+  lazyload.observe()
 }
 
 const siteInit = function () {
 
   domInit()
-
-  initImageErrorFallback()
 
   pjax = new Pjax({
             selectors: [
@@ -107,6 +95,9 @@ const siteInit = function () {
             analytics: false,
             cacheBust: false
           })
+
+  CONFIG.quicklink.ignores = LOCAL.ignores
+  quicklink.listen(CONFIG.quicklink)
 
   visibilityListener()
   themeColorListener()
@@ -126,4 +117,11 @@ const siteInit = function () {
   siteRefresh(1)
 }
 
-window.addEventListener('DOMContentLoaded', siteInit);
+window.addEventListener('DOMContentLoaded', function() {
+  try {
+    siteInit();
+  } catch(e) {
+    console.error('siteInit error:', e);
+    Loader.hide(0);
+  }
+});

@@ -44,25 +44,36 @@ hexo.extend.helper.register('_vendor_font', () => {
 });
 
 
-hexo.extend.helper.register('_vendor_js', () => {
+hexo.extend.helper.register('_vendor_js', function() {
   const config = hexo.theme.config.vendors.js;
+  const { statics, js } = hexo.theme.config;
+  const version = theme_env['version'];
 
   if (!config) return '';
 
-  //Get a font list from config
-  let vendorJs = ['pace', 'pjax', 'fetch', 'anime', 'algolia', 'instantsearch', 'lazyload', 'quicklink'].map(item => {
-    if (config[item]) {
-      return config[item];
+  const vendorMap = {
+    pace: 'vendors/pace.min.js',
+    pjax: 'vendors/pjax.min.js',
+    anime: 'vendors/anime.min.js',
+    lazyload: 'vendors/lazyload.min.js',
+    quicklink: 'vendors/quicklink.min.js'
+  };
+
+  let result = '';
+  const vendors = ['pace', 'pjax', 'fetch', 'anime', 'algolia', 'instantsearch', 'lazyload', 'quicklink'];
+
+  vendors.forEach((item, index) => {
+    if (config[item] && vendorMap[item]) {
+      const src = url_for.call(this, `${statics}${js}/${vendorMap[item]}?v=${version}`);
+      if (item === 'pace' || item === 'anime' || item === 'lazyload') {
+        result += htmlTag('script', { src }, '');
+      } else {
+        result += htmlTag('script', { src, defer: true }, '');
+      }
     }
-    return '';
   });
 
-  vendorJs = vendorJs.filter(item => item !== '');
-  vendorJs = [...new Set(vendorJs)];
-  vendorJs = vendorJs.join(',');
-
-  // 实现第三方库的异步加载
-  return vendorJs ? htmlTag('script', { src: `//cdn.jsdelivr.net/combine/${vendorJs}`, defer: true }, '') : '';
+  return result;
 });
 
 hexo.extend.helper.register('_css', function(...urls) {

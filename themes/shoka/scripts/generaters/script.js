@@ -69,8 +69,6 @@ hexo.extend.generator.register('script', function(locals){
 
   return {
       path: theme.js + '/app.js',
-      data: function(){
-        return text;
-      }
+      data: text
     };
 });

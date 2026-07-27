@@ -107,7 +107,7 @@
       empty: "{{ __('search.empty') }}",
       stats: "{{ __('search.stats') }}"
     },
-    {%- if theme.widgets.recent_comments or page.comment !== false  %}
+    {%- if theme.valine.appId and (theme.widgets.recent_comments or page.comment !== false)  %}
     valine: {{ page.valine|safedump if page.valine else "true"  }},{%- endif %}
     {%- if page.chart %}chart: true,{%- endif %}
     {%- if page.math %}copy_tex: true,
@@ -141,8 +141,6 @@
     ]
   };
 </script>
-
-<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
 
 {{ _vendor_js() }}
 

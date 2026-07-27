@@ -2,7 +2,7 @@
 alternate: 阿克夏书馆分馆
 
 # Assets 静态文件目录
-statics: https://cdn.jsdelivr.net/gh/californiafinch/californiafinch.github.io@latest/
+statics: /
 
 open_graph:
   enable: true

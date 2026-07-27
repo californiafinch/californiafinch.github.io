@@ -245,6 +245,13 @@ symbols_count_time:
   wpm: 275
   suffix: "mins."
 
+# 本地搜索
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html
+
 # Sitemap
 sitemap:
   path: sitemap.xml

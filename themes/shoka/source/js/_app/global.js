@@ -20,18 +20,19 @@ var oWinHeight = window.innerHeight;
 var oWinWidth = window.innerWidth;
 var LOCAL_HASH = 0, LOCAL_URL = window.location.href;
 var pjax;
-var lazyload = null;
-
-const initImageErrorFallback = function() {
-    document.addEventListener('error', function(e) {
-        const target = e.target;
-        if (target.tagName === 'IMG') {
-            if (target.dataset.src && target.src !== target.dataset.src) {
-                target.src = target.dataset.src;
+var lazyload = lozad('img, [data-background-image]', {
+    loaded: function(el) {
+        el.addClass('lozaded');
+    },
+    error: function(el) {
+        if (el.tagName === 'IMG' && !el.dataset.err) {
+            el.dataset.err = '1';
+            if (el.dataset.src) {
+                el.src = el.dataset.src;
             }
         }
-    }, true);
-}
+    }
+})
 
 const Loader = {
   timer: null,
