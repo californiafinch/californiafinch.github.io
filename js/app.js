@@ -1,4 +1,4 @@
-var CONFIG = {"version":"0.2.5","hostname":"https://californiafinch.github.io","root":"/","statics":"/","favicon":{"normal":"images/favicon.ico","hidden":"images/failure.ico"},"darkmode":false,"auto_scroll":false,"js":{"valine":"gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js","fancybox":"combine/npm/jquery@3.5.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"},"css":{"valine":"css/comment.css","mermaid":"css/mermaid.css","fancybox":"combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"},"loader":{"start":true,"switch":true},"search":null,"quicklink":{"timeout":3000,"priority":true},"audio":[{"title":"love music","list":["https://music.163.com/#/playlist?id=10119070118"]}],"fireworks":["rgba(255,182,185,.9)","rgba(250,227,217,.9)","rgba(187,222,214,.9)","rgba(138,198,209,.9)"]};const getRndInteger = function (min, max) {
+var CONFIG = {"version":"0.2.5","hostname":"https://californiafinch.github.io","root":"/","statics":"/","favicon":{"normal":"images/favicon.ico","hidden":"images/failure.ico"},"darkmode":false,"auto_scroll":false,"js":{"valine":"gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js","chart":"npm/frappe-charts@1.6.2/dist/frappe-charts.min.iife.min.js","copy_tex":"npm/katex@0.16.11/dist/contrib/copy-tex.min.js","fancybox":"combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"},"css":{"valine":"css/comment.css","katex":"npm/katex@0.16.11/dist/katex.min.css","mermaid":"css/mermaid.css","fancybox":"combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"},"loader":{"start":true,"switch":true},"search":null,"quicklink":{"timeout":3000,"priority":true},"audio":[{"title":"love music","list":["https://music.163.com/#/playlist?id=10119070118"]}],"fireworks":["rgba(255,182,185,.9)","rgba(250,227,217,.9)","rgba(187,222,214,.9)","rgba(138,198,209,.9)"]};const getRndInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -1128,7 +1128,17 @@ var oWinHeight = window.innerHeight;
 var oWinWidth = window.innerWidth;
 var LOCAL_HASH = 0, LOCAL_URL = window.location.href;
 var pjax;
-var lazyload;
+var lazyload = lozad('img, [data-background-image]', {
+    loaded: function(el) {
+        el.addClass('lozaded');
+    },
+    error: function(el) {
+        if (el.tagName === 'IMG' && !el.dataset.err) {
+            el.dataset.err = '1';
+            el.src = CONFIG.root + 'assets/404.svg';
+        }
+    }
+})
 
 var Loader = {
   timer: null,
@@ -2338,21 +2348,6 @@ var siteRefresh = function (reload) {
 }
 
 var siteInit = function () {
-
-  // 初始化lazyload，确保lozad已加载
-  if (typeof lozad !== 'undefined') {
-    lazyload = lozad('img, [data-background-image]', {
-      loaded: function(el) {
-        el.addClass('lozaded');
-      },
-      error: function(el) {
-        if (el.tagName === 'IMG' && !el.dataset.err) {
-          el.dataset.err = '1';
-          el.src = CONFIG.root + 'assets/404.svg';
-        }
-      }
-    });
-  }
 
   domInit()
 
