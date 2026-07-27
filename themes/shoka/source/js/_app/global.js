@@ -3,16 +3,16 @@ var scrollAction = { x: 'undefined', y: 'undefined' };
 var diffY = 0;
 var originTitle, titleTime;
 
-const BODY = document.getElementsByTagName('body')[0];
-const HTML = document.documentElement;
-const Container = $('#container');
-const loadCat = $('#loading');
-const siteNav = $('#nav');
-const siteHeader = $('#header');
-const menuToggle = siteNav.child('.toggle');
-const quickBtn = $('#quick');
-const sideBar = $('#sidebar');
-const siteBrand = $('#brand');
+var BODY = document.getElementsByTagName('body')[0];
+var HTML = document.documentElement;
+var Container = $('#container');
+var loadCat = $('#loading');
+var siteNav = $('#nav');
+var siteHeader = $('#header');
+var menuToggle = siteNav.child('.toggle');
+var quickBtn = $('#quick');
+var sideBar = $('#sidebar');
+var siteBrand = $('#brand');
 var toolBtn = $('#tool'), toolPlayer, backToTop, goToComment, showContents;
 var siteSearch = $('#search');
 var siteNavHeight, headerHightInner, headerHight;
@@ -27,14 +27,12 @@ var lazyload = lozad('img, [data-background-image]', {
     error: function(el) {
         if (el.tagName === 'IMG' && !el.dataset.err) {
             el.dataset.err = '1';
-            if (el.dataset.src) {
-                el.src = el.dataset.src;
-            }
+            el.src = CONFIG.root + 'assets/404.svg';
         }
     }
 })
 
-const Loader = {
+var Loader = {
   timer: null,
   lock: false,
   show: function() {
@@ -58,7 +56,7 @@ const Loader = {
   }
 }
 
-const changeTheme = function(type) {
+var changeTheme = function(type) {
   var btn = $('.theme .ic')
   if(type == 'dark') {
     HTML.attr('data-theme', type);
@@ -71,14 +69,14 @@ const changeTheme = function(type) {
   }
 }
 
-const changeMetaTheme = function(color) {
+var changeMetaTheme = function(color) {
   if(HTML.attr('data-theme') == 'dark')
     color = '#222'
 
   $('meta[name="theme-color"]').attr('content', color);
 }
 
-const themeColorListener = function () {
+var themeColorListener = function () {
   window.matchMedia('(prefers-color-scheme: dark)').addListener(function(mediaQueryList) {
     if(mediaQueryList.matches){
       changeTheme('dark');
@@ -113,8 +111,9 @@ const themeColorListener = function () {
         });
     }
 
+    var c;
     if(btn.hasClass('i-sun')) {
-      var c = function() {
+      c = function() {
           neko.addClass('dark');
           changeTheme('dark');
           store.set('theme', 'dark');
@@ -122,7 +121,7 @@ const themeColorListener = function () {
         }
     } else {
       neko.addClass('dark');
-      var c = function() {
+      c = function() {
           neko.removeClass('dark');
           changeTheme();
           store.set('theme', 'light');
@@ -135,7 +134,7 @@ const themeColorListener = function () {
   });
 }
 
-const visibilityListener = function () {
+var visibilityListener = function () {
   document.addEventListener('visibilitychange', function() {
     switch(document.visibilityState) {
       case 'hidden':
@@ -158,7 +157,7 @@ const visibilityListener = function () {
   });
 }
 
-const showtip = function(msg) {
+var showtip = function(msg) {
   if(!msg)
     return
 
@@ -175,7 +174,7 @@ const showtip = function(msg) {
   }, 3000);
 }
 
-const resizeHandle = function (event) {
+var resizeHandle = function (event) {
   siteNavHeight = siteNav.height();
   headerHightInner = siteHeader.height();
   headerHight = headerHightInner + $('#waves').height();
@@ -188,7 +187,7 @@ const resizeHandle = function (event) {
   sideBar.child('.panels').height(oWinHeight + 'px')
 }
 
-const scrollHandle = function (event) {
+var scrollHandle = function (event) {
   var winHeight = window.innerHeight;
   var docHeight = getDocHeight();
   var contentVisibilityHeight = docHeight > winHeight ? docHeight - winHeight : document.body.scrollHeight - winHeight;
@@ -211,7 +210,7 @@ const scrollHandle = function (event) {
     //scrollAction.x = Container.scrollLeft;
     //scrollAction.y = Container.scrollTop;
   }
-  //var diffX = scrollAction.x - Container.scrollLeft;
+  //var diffX = scrollAction.x = Container.scrollLeft;
   diffY = scrollAction.y - window.pageYOffset;
 
   //if (diffX < 0) {
@@ -238,12 +237,12 @@ const scrollHandle = function (event) {
   $('.percent').width(scrollPercent);
 }
 
-const pagePosition = function() {
+var pagePosition = function() {
   if(CONFIG.auto_scroll)
     store.set(LOCAL_URL, scrollAction.y)
 }
 
-const positionInit = function(comment) {
+var positionInit = function(comment) {
   var anchor = window.location.hash
   var target = null;
   if(LOCAL_HASH) {
@@ -269,10 +268,22 @@ const positionInit = function(comment) {
 
 }
 
-const clipBoard = function(str, callback) {
+var clipBoard = function(str, callback) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(str).then(function() {
+      callback && callback(true);
+    }).catch(function() {
+      clipBoardFallback(str, callback);
+    });
+  } else {
+    clipBoardFallback(str, callback);
+  }
+}
+
+var clipBoardFallback = function(str, callback) {
   var ta = BODY.createChild('textarea', {
     style: {
-      top: window.scrollY + 'px', // Prevent page scrolling
+      top: window.scrollY + 'px',
       position: 'absolute',
       opacity: '0'
     },
@@ -280,18 +291,17 @@ const clipBoard = function(str, callback) {
     value: str
   });
 
-  const selection = document.getSelection();
-  const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+  var selection = document.getSelection();
+  var selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
   ta.select();
   ta.setSelectionRange(0, str.length);
   ta.readOnly = false;
   var result = document.execCommand('copy');
   callback && callback(result);
-  ta.blur(); // For iOS
+  ta.blur();
   if (selected) {
     selection.removeAllRanges();
     selection.addRange(selected);
   }
   BODY.removeChild(ta);
 }
-

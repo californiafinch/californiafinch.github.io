@@ -1,4 +1,4 @@
-const domInit = function() {
+var domInit = function() {
   $.each('.overview .menu > .item', function(el) {
     siteNav.child('.menu').appendChild(el.cloneNode(true));
   })
@@ -32,7 +32,7 @@ const domInit = function() {
   })
 }
 
-const pjaxReload = function () {
+var pjaxReload = function () {
   pagePosition()
 
   if(sideBar.hasClass('on')) {
@@ -47,9 +47,29 @@ const pjaxReload = function () {
   pageScroll(0);
 }
 
-const siteRefresh = function (reload) {
+var siteRefresh = function (reload) {
   LOCAL_HASH = 0
   LOCAL_URL = window.location.href
+
+  vendorCss('katex');
+  vendorJs('copy_tex');
+  vendorCss('mermaid');
+  vendorJs('chart');
+  vendorJs('valine', function() {
+    var options = Object.assign({}, CONFIG.valine);
+    options = Object.assign(options, LOCAL.valine||{});
+    options.el = '#comments';
+    options.pathname = LOCAL.path;
+    options.pjax = pjax;
+    options.lazyload = lazyload;
+
+    new MiniValine(options);
+
+    setTimeout(function(){
+      positionInit(1);
+      postFancybox('.v');
+    }, 1000);
+  }, window.MiniValine);
 
   if(!reload) {
     $.each('script[data-pjax]', pjaxScript);
@@ -81,7 +101,7 @@ const siteRefresh = function (reload) {
   lazyload.observe()
 }
 
-const siteInit = function () {
+var siteInit = function () {
 
   domInit()
 
@@ -102,6 +122,8 @@ const siteInit = function () {
   visibilityListener()
   themeColorListener()
 
+  algoliaSearch(pjax)
+
   window.addEventListener('scroll', scrollHandle)
 
   window.addEventListener('resize', resizeHandle)
@@ -117,11 +139,6 @@ const siteInit = function () {
   siteRefresh(1)
 }
 
-window.addEventListener('DOMContentLoaded', function() {
-  try {
-    siteInit();
-  } catch(e) {
-    console.error('siteInit error:', e);
-    Loader.hide(0);
-  }
-});
+window.addEventListener('DOMContentLoaded', siteInit);
+
+console.log('%c Theme.Shoka v' + CONFIG.version + ' %c https://shoka.lostyu.me/ ', 'color: white; background: #e9546b; padding:5px 0;', 'padding:4px;border:1px solid #e9546b;')

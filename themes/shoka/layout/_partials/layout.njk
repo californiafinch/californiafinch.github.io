@@ -148,21 +148,5 @@
 
 {{ partial('_partials/third-party/baidu-analytics.njk', {}, {cache: true}) }}
 
-<script>
-  (function() {
-    var loadingEl = document.getElementById('loading');
-    if (!loadingEl) return;
-    var hideTimeout = setTimeout(function() {
-      document.body.classList.add('loaded');
-      loadingEl.style.display = 'none';
-    }, 4000);
-    window.__hideLoader = function() {
-      clearTimeout(hideTimeout);
-      document.body.classList.add('loaded');
-      loadingEl.style.display = 'none';
-    };
-  })();
-</script>
-
 </body>
 </html>

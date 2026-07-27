@@ -67,31 +67,8 @@ hexo.extend.generator.register('script', function(locals){
 
   text = 'var CONFIG = ' + JSON.stringify(siteConfig) + ';' + text;
 
-  // 合并所有 vendor 脚本为单个文件，减少 HTTP 请求数
-  var vendorList = ['pace', 'pjax', 'anime', 'lazyload', 'quicklink'];
-  var vendorFiles = {
-    pace: 'themes/shoka/source/js/vendors/pace.min.js',
-    pjax: 'themes/shoka/source/js/vendors/pjax.min.js',
-    anime: 'themes/shoka/source/js/vendors/anime.min.js',
-    lazyload: 'themes/shoka/source/js/vendors/lazyload.min.js',
-    quicklink: 'themes/shoka/source/js/vendors/quicklink.min.js'
-  };
-  var combinedVendors = '';
-  vendorList.forEach(function(name) {
-    if (vendorFiles[name]) {
-      var content = fs.readFileSync(vendorFiles[name]).toString();
-      combinedVendors += content + '\n;\n';
-    }
-  });
-
-  return [
-    {
+  return {
       path: theme.js + '/app.js',
       data: text
-    },
-    {
-      path: theme.js + '/vendors.combined.js',
-      data: combinedVendors
-    }
-  ];
+    };
 });

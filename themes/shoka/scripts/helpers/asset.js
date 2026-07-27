@@ -35,25 +35,30 @@ hexo.extend.helper.register('_vendor_font', () => {
   fontFamilies = fontFamilies.join('|');
 
   // Merge extra parameters to the final processed font string
-  if (fontFamilies) {
-    // 实现字体的异步加载
-    return `<link rel="preload" href="${fontHost}/css?family=${fontFamilies.concat(fontDisplay, fontSubset)}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="${fontHost}/css?family=${fontFamilies.concat(fontDisplay, fontSubset)}"></noscript>`;
-  }
-  return '';
+  return fontFamilies ? htmlTag('link', { rel: 'stylesheet', href: `${fontHost}/css?family=${fontFamilies.concat(fontDisplay, fontSubset)}` }) : '';
 });
 
 
-hexo.extend.helper.register('_vendor_js', function() {
+hexo.extend.helper.register('_vendor_js', () => {
   const config = hexo.theme.config.vendors.js;
-  const { statics, js } = hexo.theme.config;
-  const version = theme_env['version'];
 
   if (!config) return '';
 
-  // 使用合并后的单个 vendor 文件，使用 defer 避免阻塞渲染
-  const combinedSrc = url_for.call(this, `${statics}${js}/vendors.combined.js?v=${version}`);
-  return htmlTag('script', { src: combinedSrc, defer: true }, '');
+  //Get a font list from config
+  let vendorJs = ['pace', 'pjax', 'fetch', 'anime', 'algolia', 'instantsearch', 'lazyload', 'quicklink'].map(item => {
+    if (config[item]) {
+      return config[item];
+    }
+    return '';
+  });
+
+  vendorJs = vendorJs.filter(item => item !== '');
+  vendorJs = [...new Set(vendorJs)];
+  vendorJs = vendorJs.join(',');
+
+  let result = vendorJs ? `<script src="//cdn.jsdelivr.net/combine/${vendorJs}"></script>` : '';
+
+  return vendorJs ? htmlTag('script', { src: `//cdn.jsdelivr.net/combine/${vendorJs}` }, '') : '';
 });
 
 hexo.extend.helper.register('_css', function(...urls) {
@@ -66,5 +71,5 @@ hexo.extend.helper.register('_css', function(...urls) {
 hexo.extend.helper.register('_js', function(...urls) {
   const { statics, js } = hexo.theme.config;
 
-  return urls.map(url => htmlTag('script', { src: url_for.call(this, `${statics}${js}/${url}?v=${theme_env['version']}`), defer: true }, '')).join('');
+  return urls.map(url => htmlTag('script', { src: url_for.call(this, `${statics}${js}/${url}?v=${theme_env['version']}`) }, '')).join('');
 });
