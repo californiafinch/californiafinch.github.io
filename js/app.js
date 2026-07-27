@@ -1,12 +1,12 @@
-var CONFIG = {"version":"0.2.5","hostname":"https://californiafinch.github.io","root":"/","statics":"/","favicon":{"normal":"images/favicon.ico","hidden":"images/failure.ico"},"darkmode":false,"auto_scroll":false,"js":{"valine":"gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js","chart":"npm/frappe-charts@1.6.2/dist/frappe-charts.min.iife.min.js","copy_tex":"npm/katex@0.16.11/dist/contrib/copy-tex.min.js","fancybox":"combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"},"css":{"valine":"css/comment.css","katex":"npm/katex@0.16.11/dist/katex.min.css","mermaid":"css/mermaid.css","fancybox":"combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"},"loader":{"start":true,"switch":true},"search":null,"quicklink":{"timeout":3000,"priority":true},"audio":[{"title":"love music","list":["https://music.163.com/#/playlist?id=10119070118"]}],"fireworks":["rgba(255,182,185,.9)","rgba(250,227,217,.9)","rgba(187,222,214,.9)","rgba(138,198,209,.9)"]};const getRndInteger = function (min, max) {
+var CONFIG = {"version":"0.2.5","hostname":"https://californiafinch.github.io","root":"/","statics":"/","favicon":{"normal":"images/favicon.ico","hidden":"images/failure.ico"},"darkmode":false,"auto_scroll":false,"js":{"valine":"gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js","chart":"npm/frappe-charts@1.6.2/dist/frappe-charts.min.iife.min.js","copy_tex":"npm/katex@0.16.11/dist/contrib/copy-tex.min.js","fancybox":"combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"},"css":{"valine":"css/comment.css","katex":"npm/katex@0.16.11/dist/katex.min.css","mermaid":"css/mermaid.css","fancybox":"combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"},"loader":{"start":true,"switch":true},"search":null,"quicklink":{"timeout":3000,"priority":true},"audio":[{"title":"love music","list":["https://music.163.com/#/playlist?id=10119070118"]}],"fireworks":["rgba(255,182,185,.9)","rgba(250,227,217,.9)","rgba(187,222,214,.9)","rgba(138,198,209,.9)"]};var getRndInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const getDocHeight = function () {
+var getDocHeight = function () {
   return $('main > .inner').offsetHeight;
 }
 
-const getScript = function(url, callback, condition) {
+var getScript = function(url, callback, condition) {
   if (condition) {
     callback();
   } else {
@@ -14,7 +14,6 @@ const getScript = function(url, callback, condition) {
     script.onload = script.onreadystatechange = function(_, isAbort) {
       if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
         script.onload = script.onreadystatechange = null;
-        script = undefined;
         if (!isAbort && callback) setTimeout(callback, 0);
       }
     };
@@ -23,7 +22,7 @@ const getScript = function(url, callback, condition) {
   }
 }
 
-const assetUrl = function(asset, type) {
+var assetUrl = function(asset, type) {
   var str = CONFIG[asset][type]
   if(str.indexOf('npm')>-1||str.indexOf('gh')>-1||str.indexOf('combine')>-1)
     return "//cdn.jsdelivr.net/" + str
@@ -34,7 +33,7 @@ const assetUrl = function(asset, type) {
   return statics + str;
 }
 
-const vendorJs = function(type, callback, condition) {
+var vendorJs = function(type, callback, condition) {
   if(LOCAL[type]) {
     getScript(assetUrl("js", type), callback || function(){
       window[type] = true;
@@ -42,7 +41,7 @@ const vendorJs = function(type, callback, condition) {
   }
 }
 
-const vendorCss = function(type, condition) {
+var vendorCss = function(type, condition) {
   if(window['css'+type])
     return;
 
@@ -57,7 +56,7 @@ const vendorCss = function(type, condition) {
   }
 }
 
-const pjaxScript = function(element) {
+var pjaxScript = function(element) {
   var code = element.text || element.textContent || element.innerHTML || '';
   var parent = element.parentNode;
   parent.removeChild(element);
@@ -73,7 +72,6 @@ const pjaxScript = function(element) {
   }
   if (element.src) {
     script.src = element.src;
-    // Force synchronous loading of peripheral JS.
     script.async = false;
   }
   if (element.dataset.pjax !== undefined) {
@@ -85,7 +83,7 @@ const pjaxScript = function(element) {
   parent.appendChild(script);
 }
 
-const pageScroll = function(target, offset, complete) {
+var pageScroll = function(target, offset, complete) {
   var opt = {
     targets: typeof offset == 'number' ? target.parentNode : document.scrollingElement,
     duration: 500,
@@ -98,7 +96,7 @@ const pageScroll = function(target, offset, complete) {
   anime(opt);
 }
 
-const transition = function(target, type, complete) {
+var transition = function(target, type, complete) {
   var animation = {}
   var display = 'none'
   switch(type) {
@@ -168,7 +166,7 @@ const transition = function(target, type, complete) {
     });
 }
 
-const store = {
+var store = {
   get: function(item) {
     return localStorage.getItem(item);
   },
@@ -180,7 +178,17 @@ const store = {
     localStorage.removeItem(item);
   }
 }
-const $ = function(selector, element) {
+
+var escapeHtml = function(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+var $ = function(selector, element) {
   element = element || document;
   if(selector.indexOf('#') === 0) {
     return element.getElementById(selector.replace('#', ''))
@@ -345,6 +353,10 @@ const mediaPlayer = function(t, config) {
         ['xiami.com.*album/(\\w+)', 'xiami', 'album'],
         ['xiami.com.*artist/(\\w+)', 'xiami', 'artist'],
         ['xiami.com.*collect/(\\w+)', 'xiami', 'playlist'],
+        ['bilibili\\.com/video/(BV[\\w]+)', 'bilibili', 'video'],
+        ['bilibili\\.com/video/av(\\d+)', 'bilibili', 'video'],
+        ['b23\\.tv/(BV[\\w]+)', 'bilibili', 'video'],
+        ['b23\\.tv/(av\\d+)', 'bilibili', 'video'],
       ].forEach(function(rule) {
         var patt = new RegExp(rule[0])
         var res = patt.exec(link)
@@ -354,31 +366,86 @@ const mediaPlayer = function(t, config) {
       })
       return result
     },
-    fetch: function(source) {
+    fetch: function(source, retryCount = 0) {
       var list = []
+      var MAX_RETRY = 2
 
       return new Promise(function(resolve, reject) {
+        var completed = 0
+        var total = source.length
+
+        if (total === 0) {
+          resolve(list)
+          return
+        }
+
         source.forEach(function(raw) {
           var meta = utils.parse(raw)
           if(meta[0]) {
             var skey = JSON.stringify(meta)
-            var playlist = store.get(skey)
-            if(playlist) {
-              list.push.apply(list, JSON.parse(playlist));
-              resolve(list);
+            var cachedPlaylist = store.get(skey)
+            if(cachedPlaylist) {
+              list.push.apply(list, JSON.parse(cachedPlaylist));
+              completed++
+              if (completed === total) resolve(list)
             } else {
-              fetch('https://api.i-meto.com/meting/api?server='+meta[0]+'&type='+meta[1]+'&id='+meta[2]+'&r='+ Math.random())
-                .then(function(response) {
-                  return response.json()
-                }).then(function(json) {
-                  store.set(skey, JSON.stringify(json))
-                  list.push.apply(list, json);
-                  resolve(list);
-                }).catch(function(ex) {})
+              var fetchData = function(attempt) {
+                if (meta[0] === 'bilibili') {
+                  // B站API存在CORS限制，直接创建播放条目
+                  var bvid = meta[2]
+                  var items = []
+                  // 创建30个分P条目（邓紫棋合集）
+                  for (var i = 1; i <= 30; i++) {
+                    items.push({
+                      name: '邓紫棋合集 P' + i,
+                      artist: 'B站音乐',
+                      cover: '',
+                      url: 'https://player.bilibili.com/player.html?bvid=' + bvid + '&page=' + i + '&high_quality=1&danmaku=0&autoplay=1',
+                      type: 'bilibili',
+                      bvid: bvid,
+                      cid: 0
+                    })
+                  }
+                  store.set(skey, JSON.stringify(items))
+                  list.push.apply(list, items);
+                  completed++
+                  if (completed === total) resolve(list)
+                } else {
+                  fetch('https://api.i-meto.com/meting/api?server='+meta[0]+'&type='+meta[1]+'&id='+meta[2]+'&r='+ Math.random())
+                    .then(function(response) {
+                      if (!response.ok) throw new Error('HTTP error ' + response.status)
+                      return response.json()
+                    }).then(function(json) {
+                      if (json && json.length > 0) {
+                        store.set(skey, JSON.stringify(json))
+                      }
+                      list.push.apply(list, json);
+                      completed++
+                      if (completed === total) resolve(list)
+                    }).catch(function(ex) {
+                      if (attempt < MAX_RETRY) {
+                        setTimeout(function() {
+                          fetchData(attempt + 1)
+                        }, 1000 * Math.pow(2, attempt))
+                      } else {
+                        completed++
+                        if (completed === total) {
+                          if (list.length > 0) {
+                            resolve(list)
+                          } else {
+                            reject(ex)
+                          }
+                        }
+                      }
+                    })
+                }
+              }
+              fetchData(retryCount)
             }
           } else {
             list.push(raw);
-            resolve(list);
+            completed++
+            if (completed === total) resolve(list)
           }
         })
       })
@@ -402,7 +469,6 @@ const mediaPlayer = function(t, config) {
   t.player = {
     _id: utils.random(999999),
     group: true,
-    // 加载播放列表
     load: function(newList) {
       var d = ""
       var that = this
@@ -411,11 +477,8 @@ const mediaPlayer = function(t, config) {
         if(this.options.rawList !== newList) {
           this.options.rawList = newList;
           playlist.clear()
-          // 获取新列表
-          //this.fetch()
         }
       } else {
-        // 没有列表时，隐藏按钮
         d = "none"
         this.pause()
       }
@@ -423,6 +486,41 @@ const mediaPlayer = function(t, config) {
         buttons.el[el].display(d)
       }
       return this
+    },
+    saveState: function() {
+      if (playlist.current()) {
+        var state = {
+          index: playlist.index,
+          time: source.currentTime,
+          mode: this.options.mode,
+          volume: source.volume,
+          muted: source.muted
+        }
+        store.set('_PlayerState_' + this._id, JSON.stringify(state))
+      }
+    },
+    restoreState: function() {
+      var stateStr = store.get('_PlayerState_' + this._id)
+      if (stateStr) {
+        try {
+          var state = JSON.parse(stateStr)
+          if (typeof state.index === 'number' && state.index >= 0 && state.index < playlist.data.length) {
+            playlist.index = state.index
+          }
+          if (typeof state.mode === 'string') {
+            this.options.mode = state.mode
+            store.set('_PlayerMode', state.mode)
+          }
+          if (typeof state.volume === 'number') {
+            this.volume(state.volume)
+          }
+          if (state.muted) {
+            this.muted('muted')
+          }
+          return state
+        } catch (e) {}
+      }
+      return null
     },
     fetch: function () {
       var that = this;
@@ -436,17 +534,19 @@ const mediaPlayer = function(t, config) {
               that.options.rawList.forEach(function(raw, index) {
                 promises.push(new Promise(function(resolve, reject) {
                   var group = index
-                  var source
+                  var sourceData
                   if(!raw.list) {
                     group = 0
                     that.group = false
-                    source = [raw]
+                    sourceData = [raw]
                   } else {
                     that.group = true
-                    source = raw.list
+                    sourceData = raw.list
                   }
-                  utils.fetch(source).then(function(list) {
+                  utils.fetch(sourceData).then(function(list) {
                     playlist.add(group, list)
+                    resolve()
+                  }).catch(function(ex) {
                     resolve()
                   })
                 }))
@@ -462,6 +562,10 @@ const mediaPlayer = function(t, config) {
             playlist.create()
             controller.create()
             that.mode()
+            var savedState = that.restoreState()
+            if (savedState && typeof savedState.time === 'number') {
+              source.currentTime = savedState.time
+            }
           }
         })
     },
@@ -528,24 +632,33 @@ const mediaPlayer = function(t, config) {
         return;
       }
 
-      var playing = false;
-      if(!source.paused) {
-        playing = true
+      var playing = !source.paused
+      if(playing) {
         this.stop()
       }
 
-      source.attr('src', item.url);
-      source.attr('title', item.name + ' - ' + item.artist);
-      this.volume(store.get('_PlayerVolume') || '0.7')
-      this.muted(store.get('_PlayerMuted'))
+      if (item.type === 'bilibili') {
+        // B站视频不走audio元素，直接渲染预览
+        progress.create()
+        if(this.options.type == 'audio')
+          preview.create()
+        if(playing) {
+          this.play()
+        }
+      } else {
+        source.attr('src', item.url);
+        source.attr('title', item.name + ' - ' + item.artist);
+        this.volume(store.get('_PlayerVolume') || '0.7')
+        this.muted(store.get('_PlayerMuted'))
 
-      progress.create()
+        progress.create()
 
-      if(this.options.type == 'audio')
-        preview.create()
+        if(this.options.type == 'audio')
+          preview.create()
 
-      if(playing == true) {
-        this.play()
+        if(playing) {
+          this.play()
+        }
       }
     },
     play: function() {
@@ -556,17 +669,45 @@ const mediaPlayer = function(t, config) {
         return;
       }
       var that = this
-      source.play().then(function() {
+      if (playlist.current().type === 'bilibili') {
+        var iframe = preview.el && preview.el.find('iframe')[0]
+        if (iframe) {
+          iframe.contentWindow.postMessage(JSON.stringify({
+            "type":"play"
+          }), "*")
+        }
         playlist.scroll()
-      }).catch(function(e) {});
+      } else {
+        source.play().then(function() {
+          playlist.scroll()
+        }).catch(function(e) {});
+      }
     },
     pause: function() {
-      source.pause()
+      if (playlist.current() && playlist.current().type === 'bilibili') {
+        var iframe = preview.el && preview.el.find('iframe')[0]
+        if (iframe) {
+          iframe.contentWindow.postMessage(JSON.stringify({
+            "type":"pause"
+          }), "*")
+        }
+      } else {
+        source.pause()
+      }
       document.title = originTitle
     },
     stop: function() {
-      source.pause();
-      source.currentTime = 0;
+      if (playlist.current() && playlist.current().type === 'bilibili') {
+        var iframe = preview.el && preview.el.find('iframe')[0]
+        if (iframe) {
+          iframe.contentWindow.postMessage(JSON.stringify({
+            "type":"pause"
+          }), "*")
+        }
+      } else {
+        source.pause();
+        source.currentTime = 0;
+      }
       document.title = originTitle;
     },
     seek: function(time) {
@@ -631,8 +772,8 @@ const mediaPlayer = function(t, config) {
       var that = this
       list.forEach(function(item, i) {
         item.group = group;
-        item.name = item.name || item.title || 'Meida name';
-        item.artist = item.artist || item.author || 'Anonymous';
+        item.name = escapeHtml(item.name || item.title || 'Meida name');
+        item.artist = escapeHtml(item.artist || item.author || 'Anonymous');
         item.cover = item.cover || item.pic;
         item.type = item.type || 'normal';
 
@@ -729,10 +870,16 @@ const mediaPlayer = function(t, config) {
     el: null,
     data: null,
     index: 0,
+    animationFrame: null,
     create: function(box) {
       var current = playlist.index
       var that = this
       var raw = playlist.current().lrc
+
+      if (this.animationFrame) {
+        cancelAnimationFrame(this.animationFrame)
+        this.animationFrame = null
+      }
 
       var callback = function(body) {
         if(current !== playlist.index)
@@ -753,71 +900,77 @@ const mediaPlayer = function(t, config) {
         that.index = 0;
       }
 
-      if(raw.startsWith('http'))
+      if(raw && raw.startsWith('http'))
         this.fetch(raw, callback)
-      else
+      else if (raw)
         callback(raw)
+      else
+        box.innerHTML = '<div class="inner"></div>'
     },
     update: function(currentTime) {
-      if(!this.data)
+      if(!this.data || !this.el || this.data.length === 0)
         return
 
       if (this.index > this.data.length - 1 || currentTime < this.data[this.index][0] || (!this.data[this.index + 1] || currentTime >= this.data[this.index + 1][0])) {
+        var targetIndex = -1
         for (var i = 0; i < this.data.length; i++) {
           if (currentTime >= this.data[i][0] && (!this.data[i + 1] || currentTime < this.data[i + 1][0])) {
-            this.index = i;
-            var y = -(this.index-1);
-            this.el.style.transform = 'translateY('+y+'rem)';
-            this.el.style.webkitTransform = 'translateY('+y+'rem)';
-            this.el.getElementsByClassName('current')[0].removeClass('current');
-            this.el.getElementsByTagName('p')[i].addClass('current');
+            targetIndex = i
+            break
+          }
+        }
+
+        if (targetIndex !== -1 && targetIndex !== this.index) {
+          this.index = targetIndex
+          var y = -(this.index - 1)
+          this.el.style.transform = 'translateY(' + y + 'rem)'
+          this.el.style.webkitTransform = 'translateY(' + y + 'rem)'
+
+          var currentEls = this.el.getElementsByClassName('current')
+          if (currentEls.length > 0) {
+            currentEls[0].removeClass('current')
+          }
+
+          var pEls = this.el.getElementsByTagName('p')
+          if (pEls[targetIndex]) {
+            pEls[targetIndex].addClass('current')
           }
         }
       }
     },
     parse: function(lrc_s) {
-      if (lrc_s) {
-          lrc_s = lrc_s.replace(/([^\]^\n])\[/g, function(match, p1){return p1 + '\n['});
-          const lyric = lrc_s.split('\n');
-          var lrc = [];
-          const lyricLen = lyric.length;
-          for (var i = 0; i < lyricLen; i++) {
-              // match lrc time
-              const lrcTimes = lyric[i].match(/\[(\d{2}):(\d{2})(\.(\d{2,3}))?]/g);
-              // match lrc text
-              const lrcText = lyric[i]
-                  .replace(/.*\[(\d{2}):(\d{2})(\.(\d{2,3}))?]/g, '')
-                  .replace(/<(\d{2}):(\d{2})(\.(\d{2,3}))?>/g, '')
-                  .replace(/^\s+|\s+$/g, '');
+      if (!lrc_s) return []
 
-              if (lrcTimes) {
-                  // handle multiple time tag
-                  const timeLen = lrcTimes.length;
-                  for (var j = 0; j < timeLen; j++) {
-                      const oneTime = /\[(\d{2}):(\d{2})(\.(\d{2,3}))?]/.exec(lrcTimes[j]);
-                      const min2sec = oneTime[1] * 60;
-                      const sec2sec = parseInt(oneTime[2]);
-                      const msec2sec = oneTime[4] ? parseInt(oneTime[4]) / ((oneTime[4] + '').length === 2 ? 100 : 1000) : 0;
-                      const lrcTime = min2sec + sec2sec + msec2sec;
-                      lrc.push([lrcTime, lrcText]);
-                  }
-              }
-          }
-          // sort by time
-          lrc = lrc.filter(function(item){return item[1]});
-          lrc.sort(function(a, b){return a[0] - b[0]});
-          return lrc;
-      } else {
-          return [];
-      }
+      var lrc = []
+      var timeTagPattern = /\[(\d{2}):(\d{2})(?:\.(\d{2,3}))?]/g
+      var lines = lrc_s.split('\n')
+
+      lines.forEach(function(line) {
+        var lrcText = line.replace(timeTagPattern, '').replace(/^\s+|\s+$/g, '')
+        if (!lrcText) return
+
+        var match
+        while ((match = timeTagPattern.exec(line)) !== null) {
+          var min2sec = parseInt(match[1]) * 60
+          var sec2sec = parseInt(match[2])
+          var msec2sec = match[3] ? parseInt(match[3]) / ((match[3] + '').length === 2 ? 100 : 1000) : 0
+          var lrcTime = min2sec + sec2sec + msec2sec
+          lrc.push([lrcTime, lrcText])
+        }
+      })
+
+      return lrc.sort(function(a, b) { return a[0] - b[0] })
     },
     fetch: function(url, callback) {
       fetch(url)
           .then(function(response) {
+            if (!response.ok) throw new Error('HTTP error ' + response.status)
             return response.text()
           }).then(function(body) {
             callback(body)
-          }).catch(function(ex) {})
+          }).catch(function(ex) {
+            callback('')
+          })
     }
   }
 
@@ -826,13 +979,18 @@ const mediaPlayer = function(t, config) {
     create: function () {
       var current = playlist.current()
 
-      this.el.innerHTML = '<div class="cover"><div class="disc"><img src="'+(current.cover)+'" class="blur" /></div></div>'
-      + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span>'
-      + '<div class="lrc"></div></div>'
+      if (current.type === 'bilibili') {
+        this.el.innerHTML = '<div class="cover"><div class="bilibili-player-embed"><iframe src="' + current.url + '" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div></div>'
+        + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span></div>'
+      } else {
+        this.el.innerHTML = '<div class="cover"><div class="disc"><img src="'+(current.cover)+'" class="blur" /></div></div>'
+        + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span>'
+        + '<div class="lrc"></div></div>'
 
-      this.el.child('.cover').addEventListener('click', t.player.options.events['play-pause'])
+        this.el.child('.cover').addEventListener('click', t.player.options.events['play-pause'])
 
-      lyrics.create(this.el.child('.lrc'))
+        lyrics.create(this.el.child('.lrc'))
+      }
     }
   }
 
@@ -1036,6 +1194,10 @@ const mediaPlayer = function(t, config) {
     onloadedmetadata: function() {
       t.player.seek(0)
       progress.el.attr('data-dtime', utils.secondToTime(source.duration))
+      var savedState = t.player.restoreState()
+      if (savedState && typeof savedState.time === 'number') {
+        source.currentTime = savedState.time
+      }
     },
     onplay: function() {
       t.parentNode.addClass('playing')
@@ -1045,6 +1207,7 @@ const mediaPlayer = function(t, config) {
     onpause: function() {
       t.parentNode.removeClass('playing')
       NOWPLAYING = null
+      t.player.saveState()
     },
     ontimeupdate: function() {
       if(!this.disableTimeupdate) {
@@ -1053,8 +1216,12 @@ const mediaPlayer = function(t, config) {
       }
     },
     onended: function(argument) {
+      t.player.saveState()
       t.player.mode()
       t.player.play()
+    },
+    onseeked: function() {
+      t.player.saveState()
     }
   }
 
@@ -1099,12 +1266,258 @@ const mediaPlayer = function(t, config) {
 
     t.parentNode.addClass(t.player.options.type)
 
+    // 监听B站iframe播放器的播放结束事件，自动切换下一首
+    window.addEventListener('message', function(e) {
+      var current = playlist.current()
+      if (!current || current.type !== 'bilibili') return
+      try {
+        var d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data
+        if (d && (d.command === 'ended' || d.type === 'ended' || d.event === 'ended')) {
+          t.player.mode()
+          t.player.play()
+        }
+      } catch(err) {}
+    })
+
     t.player.created = true;
   }
 
   init(config)
 
   return t;
+}
+
+const bilibiliPlayer = function(t, config) {
+  var option = {
+    mode: 'order',
+    btns: ['play-pause', 'music'],
+    controls: ['mode', 'backward', 'play-pause', 'forward'],
+    events: {
+      "play-pause": function(event) {
+        var iframe = t.querySelector('iframe')
+        if (iframe) {
+          var wrapper = t.querySelector('.bilibili-wrapper')
+          wrapper.toggleClass('playing')
+        }
+      },
+      "music": function(event) {
+        var info = t.querySelector('.bilibili-info')
+        if(info) {
+          if(info.hasClass('show')) {
+            info.removeClass('show')
+            info.addClass('hide')
+            setTimeout(function() {
+              info.removeClass('show hide')
+            }, 300)
+          } else {
+            info.addClass('show')
+          }
+        }
+      }
+    }
+  }
+
+  var data = {
+    list: [],
+    index: 0,
+    iframe: null,
+    wrapper: null,
+    info: null,
+    controller: null,
+    playlist: null
+  }
+
+  var utils = {
+    random: function(len) {
+      return Math.floor((Math.random()*len))
+    },
+    buildUrl: function(bvid, page) {
+      return 'https://player.bilibili.com/player.html?bvid=' + bvid +
+             '&page=' + (page || 1) +
+             '&high_quality=1&danmaku=0&autoplay=1'
+    }
+  }
+
+  t.player = {
+    load: function(newList) {
+      if(newList && newList.length > 0) {
+        data.list = newList
+        this.render()
+      }
+    },
+    render: function() {
+      if(data.list.length === 0) return
+
+      var current = data.list[data.index]
+      var html = '<div class="bilibili-wrapper">' +
+                 '<div class="bilibili-frame">' +
+                 '<iframe src="' + utils.buildUrl(current.bvid, current.page) + '" ' +
+                 'scrolling="no" border="0" frameborder="no" framespacing="0" ' +
+                 'allowfullscreen="true"></iframe>' +
+                 '</div>' +
+                 '<div class="bilibili-cover">' +
+                 '<div class="cover-img" style="background-image:url(' + (current.cover || '') + ')"></div>' +
+                 '<div class="cover-play"><i class="ic i-play"></i></div>' +
+                 '</div>' +
+                 '</div>' +
+                 '<div class="bilibili-meta">' +
+                 '<h4 class="title">' + escapeHtml(current.title || current.bvid) + '</h4>' +
+                 '<span class="author">' + escapeHtml(current.author || 'Bilibili') + '</span>' +
+                 '</div>'
+
+      t.innerHTML = html
+
+      data.wrapper = t.querySelector('.bilibili-wrapper')
+      data.iframe = t.querySelector('iframe')
+
+      this.createInfo()
+      this.createController()
+      this.updateController()
+
+      var that = this
+      data.wrapper.addEventListener('click', function() {
+        that.togglePlay()
+      })
+    },
+    createInfo: function() {
+      data.info = document.createElement('div')
+      data.info.className = 'bilibili-info'
+
+      var listHtml = '<ol>'
+      data.list.forEach(function(item, index) {
+        listHtml += '<li data-index="' + index + '" title="' + escapeHtml(item.title || item.bvid) + '">' +
+                   '<span class="info"><span>' + escapeHtml(item.title || item.bvid) + '</span>' +
+                   '<span>' + escapeHtml(item.author || 'Bilibili') + '</span></span>' +
+                   '</li>'
+      })
+      listHtml += '</ol>'
+
+      data.info.innerHTML = '<div class="controller"></div><div class="playlist">' + listHtml + '</div>'
+      t.appendChild(data.info)
+
+      var that = this
+      data.info.querySelectorAll('li').forEach(function(li) {
+        li.addEventListener('click', function(e) {
+          e.stopPropagation()
+          var idx = parseInt(this.getAttribute('data-index'))
+          if(idx !== data.index) {
+            data.index = idx
+            that.render()
+          }
+        })
+      })
+    },
+    createController: function() {
+      var ctrl = data.info.querySelector('.controller')
+      if(!ctrl) return
+
+      var that = this
+      var btns = ['mode', 'backward', 'play-pause', 'forward']
+      btns.forEach(function(item) {
+        var btn = document.createElement('div')
+        btn.className = item + ' btn'
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation()
+          that.handleControl(item)
+        })
+        ctrl.appendChild(btn)
+      })
+    },
+    updateController: function() {
+      var modeBtn = data.info.querySelector('.mode')
+      if(modeBtn) modeBtn.className = 'mode ' + option.mode + ' btn'
+
+      var lis = data.info.querySelectorAll('li')
+      lis.forEach(function(li) {
+        li.removeClass('active')
+      })
+      if(lis[data.index]) {
+        lis[data.index].addClass('active')
+      }
+    },
+    handleControl: function(action) {
+      switch(action) {
+        case 'mode':
+          switch(option.mode) {
+            case 'loop': option.mode = 'random'; break
+            case 'random': option.mode = 'order'; break
+            default: option.mode = 'loop'
+          }
+          store.set('_PlayerMode', option.mode)
+          this.updateController()
+          break
+        case 'backward':
+          this.prev()
+          break
+        case 'forward':
+          this.next()
+          break
+        case 'play-pause':
+          this.togglePlay()
+          break
+      }
+    },
+    togglePlay: function() {
+      if(data.wrapper) {
+        data.wrapper.toggleClass('playing')
+      }
+    },
+    next: function() {
+      var total = data.list.length
+      if(total <= 1) return
+
+      switch(option.mode) {
+        case 'random':
+          var next = utils.random(total)
+          if(next === data.index) next = (next + 1) % total
+          data.index = next
+          break
+        case 'order':
+          data.index = (data.index + 1) % total
+          break
+        case 'loop':
+          data.index = (data.index + 1) % total
+          break
+      }
+      this.render()
+    },
+    prev: function() {
+      var total = data.list.length
+      if(total <= 1) return
+
+      switch(option.mode) {
+        case 'random':
+          var prev = utils.random(total)
+          if(prev === data.index) prev = (prev - 1 + total) % total
+          data.index = prev
+          break
+        case 'order':
+        case 'loop':
+          data.index = (data.index - 1 + total) % total
+          break
+      }
+      this.render()
+    }
+  }
+
+  var init = function(config) {
+    if(t.player.created) return
+    option = Object.assign(option, config)
+    option.mode = store.get('_PlayerMode') || option.mode
+    t.player.created = true
+  }
+
+  init(config)
+
+  var srcData = t.attr('data-src')
+  if(srcData) {
+    try {
+      var list = JSON.parse(srcData)
+      t.player.load(list)
+    } catch(e) {}
+  }
+
+  return t
 }
 var statics = CONFIG.statics.indexOf('//') > 0 ? CONFIG.statics : CONFIG.root
 var scrollAction = { x: 'undefined', y: 'undefined' };
@@ -1318,7 +1731,7 @@ var scrollHandle = function (event) {
     //scrollAction.x = Container.scrollLeft;
     //scrollAction.y = Container.scrollTop;
   }
-  //var diffX = scrollAction.x = Container.scrollLeft;
+  //var diffX = scrollAction.x - Container.scrollLeft;
   diffY = scrollAction.y - window.pageYOffset;
 
   //if (diffX < 0) {
@@ -1412,7 +1825,9 @@ var clipBoardFallback = function(str, callback) {
     selection.addRange(selected);
   }
   BODY.removeChild(ta);
-}const sideBarToggleHandle = function (event, force) {
+}
+
+var sideBarToggleHandle = function (event, force) {
   if(sideBar.hasClass('on')) {
     sideBar.removeClass('on');
     menuToggle.removeClass('close');
@@ -1433,7 +1848,7 @@ var clipBoardFallback = function(str, callback) {
   }
 }
 
-const sideBarTab = function () {
+var sideBarTab = function () {
   var sideBarInner = sideBar.child('.inner');
   var panels = sideBar.find('.panel');
 
@@ -1441,7 +1856,8 @@ const sideBarTab = function () {
     sideBarInner.removeChild(sideBar.child('.tab'));
   }
 
-  var list = document.createElement('ul'), active = 'active';
+  var list = document.createElement('ul');
+  var active = 'active';
   list.className = 'tab';
 
   ['contents', 'related', 'overview'].forEach(function (item) {
@@ -1502,7 +1918,7 @@ const sideBarTab = function () {
   }
 }
 
-const sidebarTOC = function () {
+var sidebarTOC = function () {
   var navItems = $.all('.contents li');
 
   if (navItems.length < 1) {
@@ -1530,7 +1946,6 @@ const sidebarTOC = function () {
         })
     };
 
-    // TOC item animation navigate.
     link.addEventListener('click', anchorScroll);
     alink && alink.addEventListener('click', function(event) {
       anchorScroll(event)
@@ -1574,7 +1989,6 @@ const sidebarTOC = function () {
       }
       parent = parent.parentNode;
     }
-    // Scrolling to center active TOC element if TOC content is taller then viewport.
     if(getComputedStyle(sideBar).display != 'none' && tocElement.hasClass('active')) {
       pageScroll(tocElement, target.offsetTop- (tocElement.offsetHeight / 4))
     }
@@ -1620,19 +2034,19 @@ const sidebarTOC = function () {
   createIntersectionObserver();
 }
 
-const backToTopHandle = function () {
+var backToTopHandle = function () {
   pageScroll(0);
 }
 
-const goToBottomHandle = function () {
+var goToBottomHandle = function () {
   pageScroll(parseInt(Container.height()));
 }
 
-const goToCommentHandle = function () {
+var goToCommentHandle = function () {
   pageScroll($('#comments'));
 }
 
-const menuActive = function () {
+var menuActive = function () {
   $.each('.menu .item:not(.title)', function (element) {
     var target = element.child('a[href]');
     var parentItem = element.parentNode.parentNode;
@@ -1649,13 +2063,13 @@ const menuActive = function () {
   });
 }
 const cardActive = function() {
-  // 实现md文件首行缩进<ret/>
-  var article1 = document.querySelectorAll('.article ret');
-  if(article1.length){
-    for(var i=0;i<article1.length;i++){
-      article1[i].innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-    }
-  }
+   // 实现md文件首行缩进<ret/>
+   var article1 = document.querySelectorAll('.article ret');
+   if(article1.length){
+     for(var i=0;i<article1.length;i++){
+       article1[i].innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+     }
+   }
   if(!$('.index.wrap'))
     return
 
@@ -1996,11 +2410,19 @@ const postBeauty = function () {
   })
 
   $.each('.md div.player', function(element) {
-    mediaPlayer(element, {
-      type: element.attr('data-type'),
-      mode: 'order',
-      btns: []
-    }).player.load(JSON.parse(element.attr('data-src'))).fetch()
+    var type = element.attr('data-type')
+    if (type === 'bilibili') {
+      bilibiliPlayer(element, {
+        mode: 'order',
+        btns: []
+      })
+    } else {
+      mediaPlayer(element, {
+        type: type,
+        mode: 'order',
+        btns: []
+      }).player.load(JSON.parse(element.attr('data-src'))).fetch()
+    }
   })
 }
 
@@ -2071,9 +2493,6 @@ const loadComments = function () {
     goToComment.display("")
   }
 
-  // Valine 评论已暂时禁用，不加载任何评论相关资源
-  // 如果需要启用评论，取消下面的注释并配置 valine
-  /*
   if (!window.IntersectionObserver) {
     vendorCss('valine');
   } else {
@@ -2088,7 +2507,6 @@ const loadComments = function () {
 
     io.observe(element);
   }
-  */
 }
 
 const algoliaSearch = function(pjax) {
@@ -2102,122 +2520,95 @@ const algoliaSearch = function(pjax) {
     });
   }
 
-  // 初始化搜索功能
-  const initSearch = function() {
-    if (window.instantsearch && window.algoliasearch) {
-      var search = instantsearch({
-        indexName: CONFIG.search.indexName,
-        searchClient  : algoliasearch(CONFIG.search.appID, CONFIG.search.apiKey),
-        searchFunction: function(helper) {
-          var searchInput = $('.search-input');
-          if (searchInput.value) {
-            helper.search();
-          }
+  var search = instantsearch({
+    indexName: CONFIG.search.indexName,
+    searchClient  : algoliasearch(CONFIG.search.appID, CONFIG.search.apiKey),
+    searchFunction: function(helper) {
+      var searchInput = $('.search-input');
+      if (searchInput.value) {
+        helper.search();
+      }
+    }
+  });
+
+  search.on('render', function() {
+    pjax.refresh($('#search-hits'));
+  });
+
+  // Registering Widgets
+  search.addWidgets([
+    instantsearch.widgets.configure({
+      hitsPerPage: CONFIG.search.hits.per_page || 10
+    }),
+
+    instantsearch.widgets.searchBox({
+      container           : '.search-input-container',
+      placeholder         : LOCAL.search.placeholder,
+      // Hide default icons of algolia search
+      showReset           : false,
+      showSubmit          : false,
+      showLoadingIndicator: false,
+      cssClasses          : {
+        input: 'search-input'
+      }
+    }),
+
+    instantsearch.widgets.stats({
+      container: '#search-stats',
+      templates: {
+        text: function(data) {
+          var stats = LOCAL.search.stats
+            .replace(/\$\{hits}/, data.nbHits)
+            .replace(/\$\{time}/, data.processingTimeMS);
+          return stats + '<span class="algolia-powered"></span><hr>';
         }
-      });
+      }
+    }),
 
-      search.on('render', function() {
-        pjax.refresh($('#search-hits'));
-      });
+    instantsearch.widgets.hits({
+      container: '#search-hits',
+      templates: {
+        item: function(data) {
+          var cats = data.categories ? '<span>'+data.categories.map(function(cat){return escapeHtml(cat)}).join('<i class="ic i-angle-right"></i>')+'</span>' : '';
+          return '<a href="' + CONFIG.root + data.path +'">'+cats+data._highlightResult.title.value+'</a>';
+        },
+        empty: function(data) {
+          return '<div id="hits-empty">'+
+              LOCAL.search.empty.replace(/\$\{query}/, escapeHtml(data.query)) +
+            '</div>';
+        }
+      },
+      cssClasses: {
+        item: 'item'
+      }
+    }),
 
-      // Registering Widgets
-      search.addWidgets([
-        instantsearch.widgets.configure({
-          hitsPerPage: CONFIG.search.hits.per_page || 10
-        }),
+    instantsearch.widgets.pagination({
+      container: '#search-pagination',
+      scrollTo : false,
+      showFirst: false,
+      showLast : false,
+      templates: {
+        first   : '<i class="ic i-angle-double-left"></i>',
+        last    : '<i class="ic i-angle-double-right"></i>',
+        previous: '<i class="ic i-angle-left"></i>',
+        next    : '<i class="ic i-angle-right"></i>'
+      },
+      cssClasses: {
+        root        : 'pagination',
+        item        : 'pagination-item',
+        link        : 'page-number',
+        selectedItem: 'current',
+        disabledItem: 'disabled-item'
+      }
+    })
+  ]);
 
-        instantsearch.widgets.searchBox({
-          container           : '.search-input-container',
-          placeholder         : LOCAL.search.placeholder,
-          // Hide default icons of algolia search
-          showReset           : false,
-          showSubmit          : false,
-          showLoadingIndicator: false,
-          cssClasses          : {
-            input: 'search-input'
-          }
-        }),
-
-        instantsearch.widgets.stats({
-          container: '#search-stats',
-          templates: {
-            text: function(data) {
-              var stats = LOCAL.search.stats
-                .replace(/\$\{hits}/, data.nbHits)
-                .replace(/\$\{time}/, data.processingTimeMS);
-              return stats + '<span class="algolia-powered"></span><hr>';
-            }
-          }
-        }),
-
-        instantsearch.widgets.hits({
-          container: '#search-hits',
-          templates: {
-            item: function(data) {
-              var cats = data.categories ? '<span>'+data.categories.join('<i class="ic i-angle-right"></i>')+'</span>' : '';
-              return '<a href="' + CONFIG.root + data.path +'">'+cats+data._highlightResult.title.value+'</a>';
-            },
-            empty: function(data) {
-              return '<div id="hits-empty">'+LOCAL.search.empty.replace(/\$\{query}/, data.query) +'</div>';
-            }
-          },
-          cssClasses: {
-            item: 'item'
-          }
-        }),
-
-        instantsearch.widgets.pagination({
-          container: '#search-pagination',
-          scrollTo : false,
-          showFirst: false,
-          showLast : false,
-          templates: {
-            first   : '<i class="ic i-angle-double-left"></i>',
-            last    : '<i class="ic i-angle-double-right"></i>',
-            previous: '<i class="ic i-angle-left"></i>',
-            next    : '<i class="ic i-angle-right"></i>'
-          },
-          cssClasses: {
-            root        : 'pagination',
-            item        : 'pagination-item',
-            link        : 'page-number',
-            selectedItem: 'current',
-            disabledItem: 'disabled-item'
-          }
-        })
-      ]);
-
-      search.start();
-    }
-  };
-
-  // 懒加载 Algolia 库
-  const loadAlgolia = function() {
-    if (!window.instantsearch) {
-      // 加载 instantsearch.js
-      const instantsearchScript = document.createElement('script');
-      instantsearchScript.src = 'https://cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js';
-      instantsearchScript.onload = function() {
-        // 加载 algoliasearch.js
-        const algoliasearchScript = document.createElement('script');
-        algoliasearchScript.src = 'https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch.umd.min.js';
-        algoliasearchScript.onload = function() {
-          initSearch();
-        };
-        document.head.appendChild(algoliasearchScript);
-      };
-      document.head.appendChild(instantsearchScript);
-    } else {
-      initSearch();
-    }
-  };
+  search.start();
 
   // Handle and trigger popup window
   $.each('.search', function(element) {
     element.addEventListener('click', function() {
-      // 懒加载 Algolia 库
-      loadAlgolia();
-      
       document.body.style.overflow = 'hidden';
       transition(siteSearch, 'shrinkIn', function() {
           $('.search-input').focus();
@@ -2387,62 +2778,19 @@ var siteInit = function () {
 
 window.addEventListener('DOMContentLoaded', siteInit);
 
-console.log('%c Theme.Shoka v' + CONFIG.version + ' %c https://shoka.lostyu.me/ ', 'color: white; background: #e9546b; padding:5px 0;', 'padding:4px;border:1px solid #e9546b;')// 烟花效果懒加载
-var canvasEl = null;
-var ctx = null;
+console.log('%c Theme.Shoka v' + CONFIG.version + ' %c https://shoka.lostyu.me/ ', 'color: white; background: #e9546b; padding:5px 0;', 'padding:4px;border:1px solid #e9546b;')
+var canvasEl = document.createElement('canvas');
+canvasEl.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:9999999';
+document.body.appendChild(canvasEl);
+
+var ctx = canvasEl.getContext('2d');
 var numberOfParticules = 30;
 var pointerX = 0;
 var pointerY = 0;
 var tap = 'click'; // ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown'
 var colors = CONFIG.fireworks;
-var render = null;
-var initialized = false;
-
-function initFireworks() {
-  if (initialized) return;
-  
-  // 加载 anime.js
-  if (!window.anime) {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js';
-    script.onload = function() {
-      initializeFireworks();
-    };
-    document.head.appendChild(script);
-  } else {
-    initializeFireworks();
-  }
-}
-
-function initializeFireworks() {
-  if (initialized) return;
-  
-  // 创建 canvas 元素
-  canvasEl = document.createElement('canvas');
-  canvasEl.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:9999999';
-  document.body.appendChild(canvasEl);
-  
-  ctx = canvasEl.getContext('2d');
-  
-  setCanvasSize();
-  window.addEventListener('resize', setCanvasSize, false);
-  
-  // 初始化渲染
-  render = anime({
-    duration: Infinity,
-    update: function() {
-      if (ctx) {
-        ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-      }
-    }
-  });
-  
-  initialized = true;
-}
 
 function setCanvasSize() {
-  if (!canvasEl) return;
-  
   canvasEl.width = window.innerWidth * 2;
   canvasEl.height = window.innerHeight * 2;
   canvasEl.style.width = window.innerWidth + 'px';
@@ -2508,11 +2856,6 @@ function renderParticule(anim) {
 }
 
 function animateParticules(x, y) {
-  if (!initialized) {
-    initFireworks();
-    return;
-  }
-  
   var circle = createCircle(x, y);
   var particules = [];
   for (var i = 0; i < numberOfParticules; i++) {
@@ -2541,14 +2884,18 @@ function animateParticules(x, y) {
   }, 0);
 }
 
-// 监听点击事件，第一次点击时初始化烟花效果
+var render = anime({
+  duration: Infinity,
+  update: function() {
+    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+  }
+});
+
 document.addEventListener(tap, function(e) {
-  initFireworks();
-  setTimeout(function() {
-    if (initialized) {
-      render.play();
-      updateCoords(e);
-      animateParticules(pointerX, pointerY);
-    }
-  }, 100);
+  render.play();
+  updateCoords(e);
+  animateParticules(pointerX, pointerY);
 }, false);
+
+setCanvasSize();
+window.addEventListener('resize', setCanvasSize, false);
