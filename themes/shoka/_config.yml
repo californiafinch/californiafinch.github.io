@@ -282,14 +282,19 @@ feed:
 #! ---------------------------------------------------------------
 vendors:
   css:
+    katex: npm/katex@0.16.11/dist/katex.min.css
     comment: css/comment.css
     fancybox: combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css
   js:
     pace: npm/pace-js@1.2.4/pace.min.js
     pjax: npm/pjax@0.2.8/pjax.min.js
     fetch: npm/whatwg-fetch@3.6.20/dist/fetch.umd.min.js
-    anime: npm/animejs@3.2.0/lib/anime.min.js
-    lazyload: npm/lozad@1/dist/lozad.min.js
+    anime: npm/animejs@3.2.2/lib/anime.min.js
+    algolia: npm/algoliasearch@4/dist/algoliasearch-lite.umd.js
+    instantsearch: npm/instantsearch.js@4/dist/instantsearch.production.min.js
+    lazyload: npm/lozad@1.16.0/dist/lozad.min.js
     quicklink: npm/quicklink@2/dist/quicklink.umd.js
-    fancybox: combine/npm/jquery@3.5.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js
+    fancybox: combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js
     valine: gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js
+    copy_tex: npm/katex@0.16.11/dist/contrib/copy-tex.min.js
+    chart: npm/frappe-charts@1.6.2/dist/frappe-charts.min.iife.min.js

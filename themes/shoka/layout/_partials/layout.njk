@@ -148,22 +148,5 @@
 
 {{ partial('_partials/third-party/baidu-analytics.njk', {}, {cache: true}) }}
 
-<script>
-(function() {
-  // 加载超时后备机制：5秒后强制隐藏加载动画
-  var timeout = setTimeout(function() {
-    var loading = document.getElementById('loading');
-    if (loading) {
-      loading.style.display = 'none';
-    }
-    document.body.className += ' loaded';
-  }, 5000);
-
-  // 监听页面加载完成事件，清除超时
-  window.addEventListener('load', function() {
-    clearTimeout(timeout);
-  });
-})();
-</script>
 </body>
 </html>
