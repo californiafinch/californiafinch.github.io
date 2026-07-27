@@ -51,29 +51,9 @@ hexo.extend.helper.register('_vendor_js', function() {
 
   if (!config) return '';
 
-  const vendorMap = {
-    pace: 'vendors/pace.min.js',
-    pjax: 'vendors/pjax.min.js',
-    anime: 'vendors/anime.min.js',
-    lazyload: 'vendors/lazyload.min.js',
-    quicklink: 'vendors/quicklink.min.js'
-  };
-
-  let result = '';
-  const vendors = ['pace', 'pjax', 'fetch', 'anime', 'algolia', 'instantsearch', 'lazyload', 'quicklink'];
-
-  vendors.forEach((item, index) => {
-    if (config[item] && vendorMap[item]) {
-      const src = url_for.call(this, `${statics}${js}/${vendorMap[item]}?v=${version}`);
-      if (item === 'pace' || item === 'anime' || item === 'lazyload') {
-        result += htmlTag('script', { src }, '');
-      } else {
-        result += htmlTag('script', { src, defer: true }, '');
-      }
-    }
-  });
-
-  return result;
+  // 使用合并后的单个 vendor 文件，减少 HTTP 请求
+  const combinedSrc = url_for.call(this, `${statics}${js}/vendors.combined.js?v=${version}`);
+  return htmlTag('script', { src: combinedSrc }, '');
 });
 
 hexo.extend.helper.register('_css', function(...urls) {
