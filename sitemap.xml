@@ -2,9 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://californiafinch.github.io/friends/index.html</loc>
+    
+    <lastmod>2026-07-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://californiafinch.github.io/webstack/index.html</loc>
     
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-29</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -13,16 +22,7 @@
   <url>
     <loc>https://californiafinch.github.io/zishe/index.html</loc>
     
-    <lastmod>2026-07-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://californiafinch.github.io/friends/index.html</loc>
-    
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-29</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -31,7 +31,7 @@
   <url>
     <loc>https://californiafinch.github.io/2025/07/01/Book-01/01%E5%BA%8F%E8%A8%80/</loc>
     
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-29</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -40,7 +40,7 @@
 
   <url>
     <loc>https://californiafinch.github.io/</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -50,7 +50,7 @@
   
   <url>
     <loc>https://californiafinch.github.io/categories/Book-01/</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

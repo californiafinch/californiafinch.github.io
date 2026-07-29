@@ -1,4 +1,4 @@
-var CONFIG = {"version":"0.2.6","hostname":"https://californiafinch.github.io","root":"/","statics":"/","favicon":{"normal":"images/favicon.ico","hidden":"images/failure.ico"},"darkmode":false,"auto_scroll":false,"js":{"valine":"gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js","chart":"npm/frappe-charts@1.6.2/dist/frappe-charts.min.iife.min.js","copy_tex":"npm/katex@0.16.11/dist/contrib/copy-tex.min.js","fancybox":"combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"},"css":{"valine":"css/comment.css","katex":"npm/katex@0.16.11/dist/katex.min.css","mermaid":"css/mermaid.css","fancybox":"combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"},"loader":{"start":true,"switch":true},"search":null,"quicklink":{"timeout":3000,"priority":true},"audio":[{"title":"love music","list":["https://music.163.com/#/playlist?id=10119070118"]}],"fireworks":["rgba(255,182,185,.9)","rgba(250,227,217,.9)","rgba(187,222,214,.9)","rgba(138,198,209,.9)"]};var getRndInteger = function (min, max) {
+var CONFIG = {"version":"0.2.6","hostname":"https://californiafinch.github.io","root":"/","statics":"/","favicon":{"normal":"images/favicon.ico","hidden":"images/failure.ico"},"darkmode":false,"auto_scroll":false,"js":{"valine":"gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js","chart":"npm/frappe-charts@1.6.2/dist/frappe-charts.min.iife.min.js","copy_tex":"npm/katex@0.16.11/dist/contrib/copy-tex.min.js","fancybox":"combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"},"css":{"valine":"css/comment.css","katex":"npm/katex@0.16.11/dist/katex.min.css","mermaid":"css/mermaid.css","fancybox":"combine/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"},"loader":{"start":true,"switch":true},"search":null,"quicklink":{"timeout":3000,"priority":true},"audio":[{"title":"love music","list":["https://music.163.com/#/playlist?id=10119070118"]},{"title":"B站音乐","list":["https://www.bilibili.com/video/BV17e411X7M3/"]}],"fireworks":["rgba(255,182,185,.9)","rgba(250,227,217,.9)","rgba(187,222,214,.9)","rgba(138,198,209,.9)"]};var getRndInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -980,8 +980,13 @@ const mediaPlayer = function(t, config) {
       var current = playlist.current()
 
       if (current.type === 'bilibili') {
-        this.el.innerHTML = '<div class="cover"><div class="bilibili-player-embed"><iframe src="' + current.url + '" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div></div>'
+        // 隐藏视频画面，保留听音乐功能
+        // iframe 设为1px隐藏，但保留在DOM中以便通过postMessage控制播放
+        this.el.innerHTML = '<div class="cover"><div class="disc"><div class="bilibili-music-icon"><i class="ic i-circle-play"></i></div></div></div>'
+        + '<div class="bilibili-audio-hidden"><iframe src="' + current.url + '" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>'
         + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span></div>'
+
+        this.el.child('.cover').addEventListener('click', t.player.options.events['play-pause'])
       } else {
         this.el.innerHTML = '<div class="cover"><div class="disc"><img src="'+(current.cover)+'" class="blur" /></div></div>'
         + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span>'
