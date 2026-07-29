@@ -671,8 +671,13 @@ const mediaPlayer = function(t, config) {
       var current = playlist.current()
 
       if (current.type === 'bilibili') {
-        this.el.innerHTML = '<div class="cover"><div class="bilibili-player-embed"><iframe src="' + current.url + '" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div></div>'
+        // 隐藏视频画面，保留听音乐功能
+        // iframe 设为1px隐藏，但保留在DOM中以便通过postMessage控制播放
+        this.el.innerHTML = '<div class="cover"><div class="disc"><div class="bilibili-music-icon"><i class="ic i-circle-play"></i></div></div></div>'
+        + '<div class="bilibili-audio-hidden"><iframe src="' + current.url + '" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>'
         + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span></div>'
+
+        this.el.child('.cover').addEventListener('click', t.player.options.events['play-pause'])
       } else {
         this.el.innerHTML = '<div class="cover"><div class="disc"><img src="'+(current.cover)+'" class="blur" /></div></div>'
         + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span>'
