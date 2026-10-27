@@ -29,6 +29,8 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render: 
+  - sw.js
+  - sw-register.js
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -260,9 +262,4 @@ sitemap:
   categories: true
 
 # offline config passed to sw-precache.
-service_worker:
-  maximumFileSizeToCacheInBytes: 5242880
-  staticFileGlobs:
-  - public/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2}
-  stripPrefix: public
-  verbose: true
+# 离线缓存由 source/sw.js 自行实现，原 hexo-offline 的 service_worker 配置已移除

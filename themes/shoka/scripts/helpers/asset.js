@@ -44,8 +44,8 @@ hexo.extend.helper.register('_vendor_js', () => {
 
   if (!config) return '';
 
-  //Get a font list from config
-  let vendorJs = ['pace', 'pjax', 'fetch', 'anime', 'algolia', 'instantsearch', 'lazyload', 'quicklink'].map(item => {
+  // 优先使用本站自托管的 vendor 文件（js/ 开头），其余才走 jsDelivr
+  let vendorJs = ['pace', 'pjax', 'fetch', 'anime', 'lazyload', 'quicklink'].map(item => {
     if (config[item]) {
       return config[item];
     }
@@ -54,9 +54,13 @@ hexo.extend.helper.register('_vendor_js', () => {
 
   vendorJs = vendorJs.filter(item => item !== '');
   vendorJs = [...new Set(vendorJs)];
-  vendorJs = vendorJs.join(',');
 
-  return vendorJs ? htmlTag('script', { src: `//cdn.jsdelivr.net/combine/${vendorJs}` }, '') : '';
+  const root = hexo.config.root || '/';
+
+  return vendorJs.map(item => {
+    const src = item.startsWith('js/') ? `${root}${item}` : `//cdn.jsdelivr.net/combine/${item}`;
+    return htmlTag('script', { src }, '');
+  }).join('');
 });
 
 hexo.extend.helper.register('_css', function(...urls) {
