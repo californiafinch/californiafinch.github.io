@@ -51,25 +51,7 @@ var siteRefresh = function (reload) {
   LOCAL_HASH = 0
   LOCAL_URL = window.location.href
 
-  vendorCss('katex');
-  vendorJs('copy_tex');
-  vendorCss('mermaid');
-  vendorJs('chart');
-  vendorJs('valine', function() {
-    var options = Object.assign({}, CONFIG.valine);
-    options = Object.assign(options, LOCAL.valine||{});
-    options.el = '#comments';
-    options.pathname = LOCAL.path;
-    options.pjax = pjax;
-    options.lazyload = lazyload;
-
-    new MiniValine(options);
-
-    setTimeout(function(){
-      positionInit(1);
-      postFancybox('.v');
-    }, 1000);
-  }, window.MiniValine);
+  // 评论、数学公式、图表等功能已禁用，不再加载对应资源
 
   if(!reload) {
     $.each('script[data-pjax]', pjaxScript);
@@ -116,8 +98,10 @@ var siteInit = function () {
             cacheBust: false
           })
 
-  CONFIG.quicklink.ignores = LOCAL.ignores
-  quicklink.listen(CONFIG.quicklink)
+  if (CONFIG.quicklink && CONFIG.quicklink.enable) {
+    CONFIG.quicklink.ignores = LOCAL.ignores
+    quicklink.listen(CONFIG.quicklink)
+  }
 
   visibilityListener()
   themeColorListener()

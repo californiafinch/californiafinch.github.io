@@ -429,24 +429,11 @@ const loadComments = function () {
     goToComment.display("")
   }
 
-  if (!window.IntersectionObserver) {
-    vendorCss('valine');
-  } else {
-    var io = new IntersectionObserver(function(entries, observer) {
-      var entry = entries[0];
-      vendorCss('valine');
-      if (entry.isIntersecting || entry.intersectionRatio > 0) {
-        transition($('#comments'), 'bounceUpIn');
-        observer.disconnect();
-      }
-    });
-
-    io.observe(element);
-  }
+  // 评论区已暂时禁用，不再加载 valine 样式
 }
 
 const algoliaSearch = function(pjax) {
-  if(CONFIG.search === null)
+  if(!CONFIG.search || !CONFIG.search.appID || !CONFIG.search.apiKey)
     return
 
   if(!siteSearch) {
