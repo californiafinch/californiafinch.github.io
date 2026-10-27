@@ -14,9 +14,11 @@
       <li class="item theme">
         <i class="ic i-sun"></i>
       </li>
+      {% if theme.search and theme.search.appID %}
       <li class="item search">
         <i class="ic i-search"></i>
       </li>
+      {% endif %}
     </ul>
   </div>
 </nav>
